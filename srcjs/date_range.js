@@ -6,8 +6,24 @@ import { convertToDateString } from "./utils/utils.js";
 
 
 const DateRangeInput = ({ configuration, value, setValue }) => {
-  let res = value ? value.map(date => new Date(date)) : null;
-  const [dates, setDates] = useState(res);
+  const [dates, setDates] = useState(value ? value.map(date => new Date(date)) : null);
+
+  useEffect(() => {
+    if (value) {
+      setDates(value.map(date => new Date(date)));
+      return;
+    }
+
+    if(!value) {
+      setDates(null);
+      return;
+    }
+  }, [value]);
+
+  useEffect(() => {
+    console.log("dates:");
+    console.log(dates);
+  }, [dates]);
 
   return (
     <div className="card flex justify-content-center">

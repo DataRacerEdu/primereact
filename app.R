@@ -15,7 +15,7 @@ ui <- div(
   date_range_input(
     inputId = "dateRange",
     placeholder = "Select date range",
-    value = c("2024-07-01", "2024-08-11"),
+    value = NULL,
   ),
   toggle_button(
     inputId = "tglBtnTest",
@@ -78,7 +78,7 @@ server <- function(input, output, session) {
       update_date_range_input(
         session,
         inputId = "dateRange",
-        value = NULL,
+        value = c("2024-07-01", "2024-07-10"),
         configuration = list(
           placeholder = "New date range",
           minDate = "2024-07-01",
