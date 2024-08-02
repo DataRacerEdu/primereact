@@ -7,8 +7,15 @@ import { convertToDateString } from "./utils/utils.js";
 
 const DateRangeInput = ({ configuration, value, setValue }) => {
   const [dates, setDates] = useState(value ? value.map(date => new Date(date)) : null);
+  const [clearClicked, setClearClicked] = useState(false);
 
   useEffect(() => {
+    if (clearClicked) {
+      setDates(null);
+      setClearClicked(false);
+      return;
+    }
+
     if (value) {
       setDates(value.map(date => new Date(date)));
       return;
@@ -33,6 +40,10 @@ const DateRangeInput = ({ configuration, value, setValue }) => {
         onHide={() => setValue(dates ? dates.map(date => convertToDateString(date)) : [null, null])}
         selectionMode="range"
         readOnlyInput
+        onClearButtonClick={() => {
+          setClearClicked(true);
+          console.log("clear cliked:");;
+        }}
         hideOnRangeSelection
         showButtonBar
         placeholder={configuration.placeholder || "Select Date Range"}
