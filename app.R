@@ -2,11 +2,10 @@ library(shiny)
 library(primereact)
 
 ui <- div(
-  titlePanel("reactR Input Example"),
-  tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "species_group.css"),
-    tags$link(rel = "stylesheet", type = "text/css", href = "countries_flag.css")
-  ),
+  # tags$head(
+  #   tags$link(rel = "stylesheet", type = "text/css", href = "species_group.css"),
+  #   tags$link(rel = "stylesheet", type = "text/css", href = "countries_flag.css")
+  # ),
   action_button(
     inputId = "actnBtnTest",
     label = "Enter text",
@@ -16,6 +15,7 @@ ui <- div(
     inputId = "dateRange",
     placeholder = "Select date range",
     value = NULL,
+    width = "50%"
   ),
   toggle_button(
     inputId = "tglBtnTest",
@@ -54,87 +54,78 @@ ui <- div(
 )
 
 server <- function(input, output, session) {
-  observe({
-    print(input$actnBtnTest)
-    print(input$dateRange)
-    print(input$tglBtnTest)
-    print(input$msiTest[names(input$msiTest) == "item"] |> unname())
-    print(input$siTest)
-  })
+  # observe({
+  #   print(input$actnBtnTest)
+  #   print(input$dateRange)
+  #   print(input$tglBtnTest)
+  #   print(input$msiTest[names(input$msiTest) == "item"] |> unname())
+  #   print(input$siTest)
+  # })
 
   observeEvent(input$actnBtnTest, {
-    if(input$actnBtnTest > 2) {
-      update_action_button(
-        session,
-        inputId = "actnBtnTest",
-        configuration = list(
-          label = "New text",
-          icon = "pi pi-check",
-          rounded = TRUE,
-          iconPos = "right"
-        )
-      )
 
-      update_date_range_input(
-        session,
-        inputId = "dateRange",
-        value = c("2024-07-01", "2024-07-10"),
-        configuration = list(
-          placeholder = "New date range",
-          minDate = "2024-07-01",
-          maxDate = "2024-08-31",
-          width = "100%"
-        )
-      )
+    print(input$actnBtnTest)
 
-      update_toggle_button(
-        session,
-        inputId = "tglBtnTest",
-        value = TRUE,
-        configuration = list(
-          onLabel = "on Label",
-          offLabel = "off Label",
-          onIcon = "pi pi-check",
-          offIcon = "pi pi-times"
-        )
-      )
+    # if(input$actnBtnTest > 2) {
+      # update_date_range_input(
+      #   session,
+      #   inputId = "dateRange",
+      #   value = c("2024-07-01", "2024-07-10"),
+      #   configuration = list(
+      #     placeholder = "New date range",
+      #     minDate = "2024-07-01",
+      #     maxDate = "2024-08-31",
+      #     width = "100%"
+      #   )
+      # )
 
-      update_multiple_select_input(
-        session,
-        inputId = "msiTest",
-        value = list(
-          list(title = "Ray", item = "ray"),
-          list(title = "Shrimp", item = "shrimp")
-        ),
-        configuration = list(
-          width = "100%",
-          options = list(
-            list(title = "Barnacle", item = "octopus"),
-            list(title = "Ray", item = "ray"),
-            list(title = "Sea cucumber", item = "sea_cucumber"),
-            list(title = "Shark", item = "shark"),
-            list(title = "Shrimp", item = "shrimp")
-          )
-        )
-      )
+      # update_toggle_button(
+      #   session,
+      #   inputId = "tglBtnTest",
+      #   value = TRUE,
+      #   configuration = list(
+      #     onLabel = "on Label",
+      #     offLabel = "off Label",
+      #     onIcon = "pi pi-check",
+      #     offIcon = "pi pi-times"
+      #   )
+      # )
 
-      update_select_input(
-        session,
-        inputId = "siTest",
-        value = list(title = "Philippines", item = "PHL"),
-        configuration = list(
-          options = list(
-            list(title = "Kenya", item = "KEN"),
-            list(title = "Indonesia", item = "IDN"),
-            list(title = "Philippines", item = "PHL"),
-            list(title = "Madagascar", item = "MDG"),
-            list(title = "Tanzania", item = "TZA")
-          ),
-          iconClass="country-flag country-flag-"
-        )
-      )
+      # update_multiple_select_input(
+      #   session,
+      #   inputId = "msiTest",
+      #   value = list(
+      #     list(title = "Ray", item = "ray"),
+      #     list(title = "Shrimp", item = "shrimp")
+      #   ),
+      #   configuration = list(
+      #     width = "100%",
+      #     options = list(
+      #       list(title = "Barnacle", item = "octopus"),
+      #       list(title = "Ray", item = "ray"),
+      #       list(title = "Sea cucumber", item = "sea_cucumber"),
+      #       list(title = "Shark", item = "shark"),
+      #       list(title = "Shrimp", item = "shrimp")
+      #     )
+      #   )
+      # )
 
-    }
+      # update_select_input(
+      #   session,
+      #   inputId = "siTest",
+      #   value = list(title = "Philippines", item = "PHL"),
+      #   configuration = list(
+      #     options = list(
+      #       list(title = "Kenya", item = "KEN"),
+      #       list(title = "Indonesia", item = "IDN"),
+      #       list(title = "Philippines", item = "PHL"),
+      #       list(title = "Madagascar", item = "MDG"),
+      #       list(title = "Tanzania", item = "TZA")
+      #     ),
+      #     iconClass="country-flag country-flag-"
+      #   )
+      # )
+    # }
   })
 }
 

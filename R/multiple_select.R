@@ -47,3 +47,12 @@ update_multiple_select_input <- function(session, inputId, value, configuration 
   if (!is.null(configuration)) message$configuration <- configuration
   session$sendInputMessage(inputId, message);
 }
+
+#' Extract Multi-Select Input
+#'
+#' Extract Multi-Select Input
+#'
+#' @export
+extract_items_prime_react_multiselect <- function(named_vec, item = "item") {
+  named_vec[names(named_vec) %in% item] |> unname()
+}

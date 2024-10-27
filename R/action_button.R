@@ -29,7 +29,7 @@ action_button <- function(
       package = "primereact",
       script = "bundle.js"
     ),
-    default = 0,
+    default = NULL,
     list(
       label = label,
       icon = icon,
