@@ -17,8 +17,13 @@ const DateRangeInput = ({ configuration, value, setValue }) => {
     }
 
     if (value) {
-      setDates(value.map(date => new Date(date)));
-      return;
+      if(!value.some(item => item !== null)) {
+        setDates(null);
+        return;
+      } else {
+        setDates(value.map(date => new Date(date)));
+        return;
+      }
     }
 
     if(!value) {
@@ -37,7 +42,13 @@ const DateRangeInput = ({ configuration, value, setValue }) => {
       <Calendar
         value={dates}
         onChange={(e) => setDates((e.value))}
-        onHide={() => setValue(dates ? dates.map(date => convertToDateString(date)) : [null, null])}
+        onHide={() => {
+          if (dates && dates.every(date => date)) {  // Check for valid date selection
+            setValue(dates.map(date => convertToDateString(date)));
+          } else {
+            setValue([null, null]);
+          }
+        }}
         selectionMode="range"
         readOnlyInput
         onClearButtonClick={() => {

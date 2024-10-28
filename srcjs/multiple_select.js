@@ -18,6 +18,7 @@ const MultiSelectDropdown = ({ configuration, value, setValue }) => {
         {...(configuration.width ? { style: { width: configuration.width } } : {})} // Apply the width prop if it exists, else
         {...(configuration.iconClass ? { itemTemplate: (option) => withIconTemplate(option, configuration.iconClass)  } : {})}
         display="chip"
+        filter={configuration.filter}
       />
     </div>
   );

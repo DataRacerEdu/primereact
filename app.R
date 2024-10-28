@@ -14,8 +14,10 @@ ui <- div(
   date_range_input(
     inputId = "dateRange",
     placeholder = "Select date range",
-    value = NULL,
-    width = "50%"
+    width = "50%",
+    value = c("2024-07-01", "2024-07-10"),
+    minDate = Sys.Date() - 1000,
+    maxDate = Sys.Date(),
   ),
   toggle_button(
     inputId = "tglBtnTest",
@@ -37,7 +39,8 @@ ui <- div(
       list(title = "Shrimp", item = "shrimp")
     ),
     iconClass="species-group species-group-",
-    width = "50%"
+    width = "50%",
+    filter = TRUE
   ),
 
   select_input(
@@ -54,13 +57,13 @@ ui <- div(
 )
 
 server <- function(input, output, session) {
-  # observe({
-  #   print(input$actnBtnTest)
-  #   print(input$dateRange)
-  #   print(input$tglBtnTest)
-  #   print(input$msiTest[names(input$msiTest) == "item"] |> unname())
-  #   print(input$siTest)
-  # })
+  observe({
+    # print(input$actnBtnTest)
+    print(input$dateRange)
+    # print(input$tglBtnTest)
+    # print(input$msiTest[names(input$msiTest) == "item"] |> unname())
+    # print(input$siTest)
+  })
 
   observeEvent(input$actnBtnTest, {
 

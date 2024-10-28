@@ -11,7 +11,8 @@ multiple_select_input(
   placeholder = "Select option(s)",
   class = NULL,
   width = NULL,
-  iconClass = NULL
+  iconClass = NULL,
+  filter = FALSE
 )
 }
 \description{
