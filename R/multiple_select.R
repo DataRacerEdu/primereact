@@ -14,7 +14,8 @@ multiple_select_input <- function(
     class = NULL,
     width = NULL,
     iconClass = NULL,
-    filter = FALSE
+    filter = FALSE,
+    filterInputAutoFocus = FALSE
   ) {
   reactR::createReactShinyInput(
     inputId,
@@ -33,7 +34,8 @@ multiple_select_input <- function(
       class = class,
       width = width,
       iconClass = iconClass,
-      filter = filter
+      filter = filter,
+      filterInputAutoFocus = filterInputAutoFocus
     ),
     htmltools::tags$div
   )

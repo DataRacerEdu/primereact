@@ -12,7 +12,8 @@ multiple_select_input(
   class = NULL,
   width = NULL,
   iconClass = NULL,
-  filter = FALSE
+  filter = FALSE,
+  filterInputAutoFocus = FALSE
 )
 }
 \description{

@@ -19,6 +19,7 @@ const MultiSelectDropdown = ({ configuration, value, setValue }) => {
         {...(configuration.iconClass ? { itemTemplate: (option) => withIconTemplate(option, configuration.iconClass)  } : {})}
         display="chip"
         filter={configuration.filter}
+        filterInputAutoFocus={configuration.filterInputAutoFocus}
       />
     </div>
   );

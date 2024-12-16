@@ -1,57 +1,113 @@
 library(shiny)
 library(primereact)
+library(bslib)
 
-ui <- div(
-  # tags$head(
-  #   tags$link(rel = "stylesheet", type = "text/css", href = "species_group.css"),
-  #   tags$link(rel = "stylesheet", type = "text/css", href = "countries_flag.css")
+ui <- bslib::page(
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "species_group.css"),
+    tags$link(rel = "stylesheet", type = "text/css", href = "countries_flag.css")
+  ),
+  # tagList(
+  #   # showModal(
+  #     modalDialog(
+  #       title = "Fisheries Overview Modal",
+  #       size = "xl",
+  #       class = "modal-container-fisheries",
+  #       primereact::multiple_select_input(
+  #         inputId = ("admin1_selected"),
+  #         value = NULL,
+  #         width = "100%",
+  #         filter = TRUE,
+  #         class = "primereact-modal-input",
+  #         options = list(
+  #           list(title = "Admin 11", item = "Admin 11"),
+  #           list(title = "Admin 12", item = "Admin 12"),
+  #           list(title = "Admin 13", item = "Admin 13")
+  #         )
+  #       )
+  #     )
+  #   # )
   # ),
-  action_button(
-    inputId = "actnBtnTest",
-    label = "Enter text",
-    icon = "pi pi-check"
-  ),
-  date_range_input(
-    inputId = "dateRange",
-    placeholder = "Select date range",
-    width = "50%",
-    value = c("2024-07-01", "2024-07-10"),
-    minDate = Sys.Date() - 1000,
-    maxDate = Sys.Date(),
-  ),
-  toggle_button(
-    inputId = "tglBtnTest",
-    value = FALSE,
-    onLabel = "Group by",
-    offLabel = "Don't group by",
-    onIcon = "pi pi-check",
-    offIcon = "pi pi-times"
-  ),
 
-  multiple_select_input(
-    inputId = "msiTest",
-    value = NULL,
-    options = list(
-      list(title = "Barnacle", item = "octopus"),
-      list(title = "Ray", item = "ray"),
-      list(title = "Sea cucumber", item = "sea_cucumber"),
-      list(title = "Shark", item = "shark"),
-      list(title = "Shrimp", item = "shrimp")
-    ),
-    iconClass="species-group species-group-",
-    width = "50%",
-    filter = TRUE
-  ),
-
+  # action_button(
+  #   inputId = "actnBtnTest",
+  #   label = "Enter text",
+  #   icon = "pi pi-check"
+  # ),
+  # primereact::select_input(
+  #   inputId = ("country_selected"),
+  #   value = NULL,
+  #   options = list(
+  #     list(title = "Kenya", item = "KEN"),
+  #     list(title = "Indonesia", item = "IDN"),
+  #     list(title = "Philippines", item = "PHL")
+  #   ),
+  #   width = "100%",
+  #   placeholder = "Select country",
+  #   iconClass="country-flag country-flag-",
+  #   class = "primereact-modal-input"
+  # ),
+  #
+  # primereact::multiple_select_input(
+  #   inputId = ("partner_selected"),
+  #   value = NULL,
+  #   options = list(
+  #     list(title = "Partner 1", item = "Partner 1"),
+  #     list(title = "Partner 2", item = "Partner 2"),
+  #     list(title = "Partner 3", item = "Partner 3")
+  #   ),
+  #   width = "100%",
+  #   filter = TRUE,
+  #   placeholder = "Select partner",
+  #   class = "primereact-modal-input"
+  # ),
+  # date_range_input(
+  #   inputId = "dateRange",
+  #   placeholder = "Select date range",
+  #   width = "50%",
+  #   value = c("2024-07-01", "2024-07-10"),
+  #   minDate = Sys.Date() - 1000,
+  #   maxDate = Sys.Date(),
+  # ),
+  # toggle_button(
+  #   inputId = "tglBtnTest",
+  #   value = FALSE,
+  #   onLabel = "Group by",
+  #   offLabel = "Don't group by",
+  #   onIcon = "pi pi-check",
+  #   offIcon = "pi pi-times"
+  # ),
+  #
+  # multiple_select_input(
+  #   inputId = "msiTest",
+  #   value = NULL,
+  #   options = list(
+  #     list(title = "Barnacle", item = "octopus"),
+  #     list(title = "Ray", item = "ray"),
+  #     list(title = "Sea cucumber", item = "sea_cucumber"),
+  #     list(title = "Shark", item = "shark"),
+  #     list(title = "Shrimp", item = "shrimp")
+  #   ),
+  #   iconClass="species-group species-group-",
+  #   width = "50%",
+  #   filter = TRUE
+  # ),
+  #
   select_input(
     inputId = "siTest",
-    value = NULL,
+    value = list(title = "Kenya", item = "KEN"),
     options = list(
       list(title = "Kenya", item = "KEN"),
       list(title = "Indonesia", item = "IDN"),
       list(title = "Philippines", item = "PHL")
     ),
     iconClass="country-flag country-flag-"
+  ),
+
+  toggle_text_button(
+    inputId = "ttbTest",
+    value = "On",
+    options = c("Off", "On")
   )
 
 )
@@ -59,10 +115,10 @@ ui <- div(
 server <- function(input, output, session) {
   observe({
     # print(input$actnBtnTest)
-    print(input$dateRange)
+    # print(input$dateRange)
     # print(input$tglBtnTest)
     # print(input$msiTest[names(input$msiTest) == "item"] |> unname())
-    # print(input$siTest)
+    print(input$ttbTest)
   })
 
   observeEvent(input$actnBtnTest, {

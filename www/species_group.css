@@ -92,3 +92,48 @@ img.species-group {
   background-size: 100%;
   vertical-align: middle;
 }
+
+.p-datepicker.p-component.p-ripple-disabled.p-connected-overlay-enter-done {
+  z-index: 999999999999999999 !important;
+}
+
+.modal-container-fisheries button {
+  border-radius: 6px !important;
+}
+
+.date-range-input-fisheries button {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+.p-multiselect-panel.p-component.p-ripple-disabled.p-connected-overlay-enter-done {
+    z-index: 999999999999999999 !important;
+}
+
+.p-dropdown-panel.p-component.p-ripple-disabled.p-connected-overlay-enter-done {
+  z-index: 999999999999999999 !important;
+}
+
+.p-datepicker.p-component.p-datepicker-monthpicker {
+  z-index: 999999999999999999 !important;
+}
+
+.p-datepicker {
+  z-index: 999999999999999999 !important;
+}
+
+.modal-column {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin: 1rem 0rem;
+}
+
+.modal-column > div {
+    width: 100%;
+}
+
+.modal-footer-fisheries {
+  display: flex;
+  gap: 0.5rem;
+}
