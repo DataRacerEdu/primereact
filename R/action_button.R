@@ -9,6 +9,7 @@
 action_button <- function(
     inputId,
     label,
+    translation_list,
     icon = NULL,
     iconPos = "right",
     disabled = FALSE,
@@ -16,7 +17,9 @@ action_button <- function(
     text = FALSE,
     raised = FALSE,
     outlined = FALSE,
-    size = "normal"
+    size = "normal",
+    default_langauge = 'en',
+    message_handler_id_from_shiny = "language_changed"
   ) {
   reactR::createReactShinyInput(
     inputId,
@@ -39,7 +42,10 @@ action_button <- function(
       text = text,
       raised = raised,
       outlined = outlined,
-      size = size
+      size = size,
+      translation_list = translation_list,
+      default_langauge = default_langauge,
+      message_handler_id_from_shiny = message_handler_id_from_shiny
     ),
     htmltools::tags$div
   )

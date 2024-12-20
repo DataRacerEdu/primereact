@@ -15,7 +15,10 @@ multiple_select_input <- function(
     width = NULL,
     iconClass = NULL,
     filter = FALSE,
-    filterInputAutoFocus = FALSE
+    filterInputAutoFocus = FALSE,
+    translation_list,
+    default_langauge = 'en',
+    message_handler_id_from_shiny = "language_changed"
   ) {
   reactR::createReactShinyInput(
     inputId,
@@ -35,7 +38,10 @@ multiple_select_input <- function(
       width = width,
       iconClass = iconClass,
       filter = filter,
-      filterInputAutoFocus = filterInputAutoFocus
+      filterInputAutoFocus = filterInputAutoFocus,
+      translation_list = translation_list,
+      default_langauge = default_langauge,
+      message_handler_id_from_shiny = message_handler_id_from_shiny
     ),
     htmltools::tags$div
   )

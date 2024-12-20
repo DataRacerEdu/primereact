@@ -11,7 +11,10 @@ select_input(
   placeholder = "Select value",
   class = NULL,
   width = NULL,
-  iconClass = NULL
+  iconClass = NULL,
+  translation_list,
+  default_langauge = "en",
+  message_handler_id_from_shiny = "language_changed"
 )
 }
 \description{

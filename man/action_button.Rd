@@ -7,6 +7,7 @@
 action_button(
   inputId,
   label,
+  translation_list,
   icon = NULL,
   iconPos = "right",
   disabled = FALSE,
@@ -14,7 +15,9 @@ action_button(
   text = FALSE,
   raised = FALSE,
   outlined = FALSE,
-  size = "normal"
+  size = "normal",
+  default_langauge = "en",
+  message_handler_id_from_shiny = "language_changed"
 )
 }
 \description{

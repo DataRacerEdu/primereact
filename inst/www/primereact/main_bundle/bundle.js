@@ -22122,6 +22122,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primereact_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/button */ "./node_modules/primereact/button/button.esm.js");
 /* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primeicons/primeicons.css */ "./node_modules/primeicons/primeicons.css");
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
@@ -22131,10 +22137,34 @@ var ActionButtonInput = function ActionButtonInput(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
+    _useState2 = _slicedToArray(_useState, 2),
+    lang_selected = _useState2[0],
+    setlang_selected = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.label),
+    _useState4 = _slicedToArray(_useState3, 2),
+    placeholder = _useState4[0],
+    setPlaceholder = _useState4[1];
+
+  // Register the Shiny custom message handler for 'language_changed'
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (window.Shiny) {
+      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function (newLanguage) {
+        setlang_selected(newLanguage);
+      });
+    }
+  }, []);
+
+  // Render placeholder
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    // Dynamically create translate text
+    var translated_text = configuration.translation_list[lang_selected][configuration.label] || configuration.label; // Fallback to `value` if no translation
+    setPlaceholder(translated_text);
+  }, [lang_selected]);
   return /*#__PURE__*/React.createElement("div", {
     className: "card flex justify-content-center"
   }, /*#__PURE__*/React.createElement(primereact_button__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-    label: configuration.label,
+    label: placeholder,
     icon: configuration.icon,
     iconPos: configuration.iconPos,
     disabled: configuration.disabled,
@@ -22323,6 +22353,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
 /* harmony import */ var _utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/selectIconTemplate.js */ "./srcjs/utils/selectIconTemplate.js");
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
@@ -22332,6 +22368,30 @@ var MultiSelectDropdown = function MultiSelectDropdown(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
+    _useState2 = _slicedToArray(_useState, 2),
+    lang_selected = _useState2[0],
+    setlang_selected = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.placeholder),
+    _useState4 = _slicedToArray(_useState3, 2),
+    placeholder = _useState4[0],
+    setPlaceholder = _useState4[1];
+
+  // Register the Shiny custom message handler for 'language_changed'
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (window.Shiny) {
+      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function (newLanguage) {
+        setlang_selected(newLanguage);
+      });
+    }
+  }, []);
+
+  // Render placeholder
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    // Dynamically create translate text
+    var translated_text = configuration.translation_list[lang_selected][configuration.placeholder] || configuration.placeholder; // Fallback to `value` if no translation
+    setPlaceholder(translated_text);
+  }, [lang_selected]);
   return /*#__PURE__*/React.createElement("div", {
     className: "card flex justify-content-center"
   }, /*#__PURE__*/React.createElement(primereact_multiselect__WEBPACK_IMPORTED_MODULE_2__["MultiSelect"], _extends({
@@ -22341,7 +22401,7 @@ var MultiSelectDropdown = function MultiSelectDropdown(_ref) {
       return e.value === undefined || e.value.length < 1 ? setValue(null) : setValue(e.value);
     },
     optionLabel: "title",
-    placeholder: configuration.placeholder || "Select value(s)",
+    placeholder: placeholder || "Select value(s)",
     className: "".concat(configuration["class"] || '', " w-full") // Properly handle the className
   }, configuration.width ? {
     style: {
@@ -22381,6 +22441,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
 /* harmony import */ var _utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/selectIconTemplate.js */ "./srcjs/utils/selectIconTemplate.js");
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
@@ -22390,6 +22456,30 @@ var SelectInput = function SelectInput(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(configuration.default_langauge),
+    _useState2 = _slicedToArray(_useState, 2),
+    lang_selected = _useState2[0],
+    setlang_selected = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(configuration.placeholder),
+    _useState4 = _slicedToArray(_useState3, 2),
+    placeholder = _useState4[0],
+    setPlaceholder = _useState4[1];
+
+  // Register the Shiny custom message handler for 'language_changed'
+  Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(function () {
+    if (window.Shiny) {
+      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function (newLanguage) {
+        setlang_selected(newLanguage);
+      });
+    }
+  }, []);
+
+  // Render placeholder
+  Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(function () {
+    // Dynamically create translate text
+    var translated_text = configuration.translation_list[lang_selected][configuration.placeholder] || configuration.placeholder; // Fallback to `value` if no translation
+    setPlaceholder(translated_text);
+  }, [lang_selected]);
   return /*#__PURE__*/React.createElement(primereact_dropdown__WEBPACK_IMPORTED_MODULE_1__["Dropdown"], _extends({
     value: value,
     onChange: function onChange(e) {
@@ -22398,7 +22488,7 @@ var SelectInput = function SelectInput(_ref) {
     options: configuration.options || [],
     optionLabel: "title",
     showClear: true,
-    placeholder: configuration.placeholder || "Select value",
+    placeholder: placeholder || "Select value",
     className: "".concat(configuration["class"] || '', " w-full") // Properly handle the className
   }, configuration.width ? {
     style: {
@@ -22482,6 +22572,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var primereact_selectbutton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/selectbutton */ "./node_modules/primereact/selectbutton/selectbutton.esm.js");
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
@@ -22489,15 +22585,48 @@ var ToggleTextButtonInput = function ToggleTextButtonInput(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
-  console.log("Component");
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null),
+    _useState2 = _slicedToArray(_useState, 2),
+    itemOptions = _useState2[0],
+    setItemOptions = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
+    _useState4 = _slicedToArray(_useState3, 2),
+    lang_selected = _useState4[0],
+    setlang_selected = _useState4[1]; //
+
+  // Register the Shiny custom message handler for 'language_changed'
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (window.Shiny) {
+      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function (newLanguage) {
+        console.log("Language change trigger received:", newLanguage);
+        setlang_selected(newLanguage);
+      });
+    }
+  }, []);
+
+  // Render options
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    // Dynamically create `itemOptions`
+    var itemOptions = configuration.options.map(function (value) {
+      return {
+        value: value,
+        name: configuration.translation_list[lang_selected][value] || value // Fallback to `value` if no translation
+      };
+    });
+    setItemOptions(itemOptions);
+  }, [lang_selected]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "card flex justify-content-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(primereact_selectbutton__WEBPACK_IMPORTED_MODULE_2__["SelectButton"], {
-    value: value,
+    value: value.value,
     onChange: function onChange(e) {
-      return setValue(e.value);
+      setValue({
+        value: e.value,
+        name: configuration.translation_list[lang_selected][e.value]
+      });
     },
-    options: configuration.options,
+    optionLabel: "name",
+    options: itemOptions,
     allowEmpty: false,
     multiple: false
   }));

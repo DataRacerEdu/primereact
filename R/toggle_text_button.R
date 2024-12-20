@@ -8,8 +8,11 @@
 #' @export
 toggle_text_button <- function(
     inputId,
-    value,
-    options
+    value = list(value = NULL, name = NULL),
+    options,
+    default_langauge = 'en',
+    translation_list,
+    message_handler_id_from_shiny = "language_changed"
   ) {
   reactR::createReactShinyInput(
     inputId,
@@ -23,7 +26,10 @@ toggle_text_button <- function(
     ),
     default = value,
     list(
-      options = options
+      options = options,
+      default_langauge = default_langauge,
+      translation_list = translation_list,
+      message_handler_id_from_shiny = message_handler_id_from_shiny
     ),
     htmltools::tags$div
   )

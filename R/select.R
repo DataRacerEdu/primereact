@@ -13,7 +13,10 @@ select_input <- function(
     placeholder = 'Select value',
     class = NULL,
     width = NULL,
-    iconClass = NULL
+    iconClass = NULL,
+    translation_list,
+    default_langauge = 'en',
+    message_handler_id_from_shiny = "language_changed"
   ) {
   reactR::createReactShinyInput(
     inputId,
@@ -31,7 +34,10 @@ select_input <- function(
       placeholder = placeholder,
       class = class,
       width = width,
-      iconClass = iconClass
+      iconClass = iconClass,
+      translation_list = translation_list,
+      default_langauge = default_langauge,
+      message_handler_id_from_shiny = message_handler_id_from_shiny
     ),
     htmltools::tags$div
   )

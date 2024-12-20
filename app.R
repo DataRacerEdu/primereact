@@ -29,11 +29,23 @@ ui <- bslib::page(
   #   # )
   # ),
 
-  # action_button(
-  #   inputId = "actnBtnTest",
-  #   label = "Enter text",
-  #   icon = "pi pi-check"
-  # ),
+  action_button(
+    inputId = "actnBtnTest",
+    label = "Enter text",
+    icon = "pi pi-check",
+    translation_list = list(
+      en = list(`Enter text` = "Enter text"),
+      es = list(`Enter text` = "Ingresar texto"),
+      mg = list(`Enter text` = "Ampidiro ny teny")
+    ),
+    message_handler_id_from_shiny = "language_selected_actnBtnTest"
+  ),
+  radioButtons(
+    inputId = "radioBtnTest",
+    label = "Radio buttons",
+    choices = c("en", "es", "mg"),
+    selected = "en"
+  ),
   # primereact::select_input(
   #   inputId = ("country_selected"),
   #   value = NULL,
@@ -78,20 +90,28 @@ ui <- bslib::page(
   #   offIcon = "pi pi-times"
   # ),
   #
-  # multiple_select_input(
-  #   inputId = "msiTest",
-  #   value = NULL,
-  #   options = list(
-  #     list(title = "Barnacle", item = "octopus"),
-  #     list(title = "Ray", item = "ray"),
-  #     list(title = "Sea cucumber", item = "sea_cucumber"),
-  #     list(title = "Shark", item = "shark"),
-  #     list(title = "Shrimp", item = "shrimp")
-  #   ),
-  #   iconClass="species-group species-group-",
-  #   width = "50%",
-  #   filter = TRUE
-  # ),
+  multiple_select_input(
+    inputId = "msiTest",
+    value = NULL,
+    options = list(
+      list(title = "Barnacle", item = "octopus"),
+      list(title = "Ray", item = "ray"),
+      list(title = "Sea cucumber", item = "sea_cucumber"),
+      list(title = "Shark", item = "shark"),
+      list(title = "Shrimp", item = "shrimp")
+    ),
+    iconClass="species-group species-group-",
+    width = "50%",
+    filter = TRUE,
+    placeholder = "Select country",
+    default_langauge = 'en',
+    translation_list = list(
+      en = list(`Select country` = "Select country"),
+      es = list(`Select country` = "Seleccionar país"),
+      mg = list(`Select country` = "Misafidy firenena")
+    ),
+    message_handler_id_from_shiny = "language_selected_msiTest"
+  ),
   #
   select_input(
     inputId = "siTest",
@@ -101,24 +121,50 @@ ui <- bslib::page(
       list(title = "Indonesia", item = "IDN"),
       list(title = "Philippines", item = "PHL")
     ),
-    iconClass="country-flag country-flag-"
+    iconClass="country-flag country-flag-",
+    placeholder = "Select country",
+    default_langauge = 'en',
+    translation_list = list(
+      en = list(`Select country` = "Select country"),
+      es = list(`Select country` = "Seleccionar país"),
+      mg = list(`Select country` = "Misafidy firenena")
+    ),
+    message_handler_id_from_shiny = "language_selected_siTest"
   ),
 
   toggle_text_button(
     inputId = "ttbTest",
-    value = "On",
-    options = c("Off", "On")
+    value = list(value = "On", name = "On"),
+    options = c("Off", "On", "Auto"),
+    default_langauge = 'en',
+    translation_list = list(
+      en = list(Off = "Off", On = "On", Auto = "Auto"),
+      es = list(Off = "Apagado", On = "Encendido", Auto = "AutoES"),
+      mg = list(Off = "Mampiasa", On = "Mampiasa", Auto = "AutoMG")
+    ),
+    message_handler_id_from_shiny = "language_selected_ttbTest"
   )
 
 )
 
 server <- function(input, output, session) {
-  observe({
-    # print(input$actnBtnTest)
-    # print(input$dateRange)
-    # print(input$tglBtnTest)
-    # print(input$msiTest[names(input$msiTest) == "item"] |> unname())
+  # observe({
+  #   # print(input$actnBtnTest)
+  #   # print(input$dateRange)
+  #   # print(input$tglBtnTest)
+  #   # print(input$msiTest[names(input$msiTest) == "item"] |> unname())
+  #   print(input$ttbTest)
+  # })
+
+  observeEvent(input$ttbTest, {
     print(input$ttbTest)
+  })
+
+  observe({
+    session$sendCustomMessage("language_selected_ttbTest", input$radioBtnTest)
+    session$sendCustomMessage("language_selected_actnBtnTest", input$radioBtnTest)
+    session$sendCustomMessage("language_selected_siTest", input$radioBtnTest)
+    session$sendCustomMessage("language_selected_msiTest", input$radioBtnTest)
   })
 
   observeEvent(input$actnBtnTest, {

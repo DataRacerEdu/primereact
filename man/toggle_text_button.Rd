@@ -4,7 +4,14 @@
 \alias{toggle_text_button}
 \title{ToggleTextButton}
 \usage{
-toggle_text_button(inputId, value, options)
+toggle_text_button(
+  inputId,
+  value = list(value = NULL, name = NULL),
+  options,
+  default_langauge = "en",
+  translation_list,
+  message_handler_id_from_shiny = "language_changed"
+)
 }
 \description{
 ToggleTextButton

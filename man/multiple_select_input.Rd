@@ -13,7 +13,10 @@ multiple_select_input(
   width = NULL,
   iconClass = NULL,
   filter = FALSE,
-  filterInputAutoFocus = FALSE
+  filterInputAutoFocus = FALSE,
+  translation_list,
+  default_langauge = "en",
+  message_handler_id_from_shiny = "language_changed"
 )
 }
 \description{
