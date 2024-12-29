@@ -9,7 +9,9 @@
 action_button <- function(
     inputId,
     label,
-    translation_list,
+    translation_list = list(
+      en = list(`Select value` = "Select value")
+    ),
     icon = NULL,
     iconPos = "right",
     disabled = FALSE,

@@ -32,13 +32,14 @@ ui <- bslib::page(
   action_button(
     inputId = "actnBtnTest",
     label = "Enter text",
-    icon = "pi pi-check",
-    translation_list = list(
-      en = list(`Enter text` = "Enter text"),
-      es = list(`Enter text` = "Ingresar texto"),
-      mg = list(`Enter text` = "Ampidiro ny teny")
-    ),
-    message_handler_id_from_shiny = "language_selected_actnBtnTest"
+    icon = "pi pi-check"
+    # ,
+    # translation_list = list(
+    #   en = list(`Enter text` = "Enter text"),
+    #   es = list(`Enter text` = "Ingresar texto"),
+    #   mg = list(`Enter text` = "Ampidiro ny teny")
+    # ),
+    # message_handler_id_from_shiny = "language_selected_actnBtnTest"
   ),
   radioButtons(
     inputId = "radioBtnTest",
@@ -103,14 +104,7 @@ ui <- bslib::page(
     iconClass="species-group species-group-",
     width = "50%",
     filter = TRUE,
-    placeholder = "Select country",
-    default_langauge = 'en',
-    translation_list = list(
-      en = list(`Select country` = "Select country"),
-      es = list(`Select country` = "Seleccionar país"),
-      mg = list(`Select country` = "Misafidy firenena")
-    ),
-    message_handler_id_from_shiny = "language_selected_msiTest"
+    placeholder = "Select country"
   ),
   #
   select_input(
@@ -122,27 +116,21 @@ ui <- bslib::page(
       list(title = "Philippines", item = "PHL")
     ),
     iconClass="country-flag country-flag-",
-    placeholder = "Select country",
-    default_langauge = 'en',
-    translation_list = list(
-      en = list(`Select country` = "Select country"),
-      es = list(`Select country` = "Seleccionar país"),
-      mg = list(`Select country` = "Misafidy firenena")
-    ),
-    message_handler_id_from_shiny = "language_selected_siTest"
+    placeholder = "Select country"
   ),
 
   toggle_text_button(
     inputId = "ttbTest",
     value = list(value = "On", name = "On"),
-    options = c("Off", "On", "Auto"),
-    default_langauge = 'en',
-    translation_list = list(
-      en = list(Off = "Off", On = "On", Auto = "Auto"),
-      es = list(Off = "Apagado", On = "Encendido", Auto = "AutoES"),
-      mg = list(Off = "Mampiasa", On = "Mampiasa", Auto = "AutoMG")
-    ),
-    message_handler_id_from_shiny = "language_selected_ttbTest"
+    options = c("Off", "On", "Auto")
+    # ,
+    # default_langauge = 'en',
+    # translation_list = list(
+    #   en = list(Off = "Off", On = "On", Auto = "Auto"),
+    #   es = list(Off = "Apagado", On = "Encendido", Auto = "AutoES"),
+    #   mg = list(Off = "Mampiasa", On = "Mampiasa", Auto = "AutoMG")
+    # ),
+    # message_handler_id_from_shiny = "language_selected_ttbTest"
   )
 
 )

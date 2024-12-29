@@ -14,7 +14,7 @@ multiple_select_input(
   iconClass = NULL,
   filter = FALSE,
   filterInputAutoFocus = FALSE,
-  translation_list,
+  translation_list = list(en = list(`Select value` = "Select value")),
   default_langauge = "en",
   message_handler_id_from_shiny = "language_changed"
 )

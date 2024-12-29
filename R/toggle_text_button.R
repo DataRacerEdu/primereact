@@ -11,7 +11,9 @@ toggle_text_button <- function(
     value = list(value = NULL, name = NULL),
     options,
     default_langauge = 'en',
-    translation_list = list(),
+    translation_list = list(
+      en = list(`Select value` = "Select value")
+    ),
     message_handler_id_from_shiny = "language_changed"
   ) {
   reactR::createReactShinyInput(
