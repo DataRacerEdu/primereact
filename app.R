@@ -82,14 +82,15 @@ ui <- bslib::page(
   #   minDate = Sys.Date() - 1000,
   #   maxDate = Sys.Date(),
   # ),
-  # toggle_button(
-  #   inputId = "tglBtnTest",
-  #   value = FALSE,
-  #   onLabel = "Group by",
-  #   offLabel = "Don't group by",
-  #   onIcon = "pi pi-check",
-  #   offIcon = "pi pi-times"
-  # ),
+  toggle_button(
+    inputId = "tglBtnTest",
+    value = FALSE,
+    disabled = TRUE,
+    onLabel = "Group by",
+    offLabel = "Don't group by",
+    onIcon = "pi pi-check",
+    offIcon = "pi pi-times"
+  ),
   #
   multiple_select_input(
     inputId = "msiTest",

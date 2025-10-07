@@ -12,6 +12,7 @@ const ToggleButtonInput = ({ configuration, value, setValue }) => {
         offLabel={configuration.offLabel || 'Off'}
         onIcon={configuration.onIcon || 'pi pi-check'}
         offIcon={configuration.offIcon || 'pi pi-times'}
+        disabled={configuration.disabled}
         checked={value}
         onChange={(e) => setValue(e.value)}
         className={`${configuration.class || ''} w-9rem`} // Properly handle the className

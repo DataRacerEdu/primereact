@@ -14,7 +14,8 @@ toggle_button <- function(
     onIcon = "pi pi-check",
     offIcon = "pi pi-times",
     class = NULL,
-    width = NULL
+    width = NULL,
+    disabled = FALSE
   ) {
   reactR::createReactShinyInput(
     inputId,
@@ -32,6 +33,7 @@ toggle_button <- function(
       offLabel = offLabel,
       onIcon = onIcon,
       offIcon = offIcon,
+      disabled = disabled,
       class = class
     ),
     htmltools::tags$div

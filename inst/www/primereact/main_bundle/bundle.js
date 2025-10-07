@@ -22540,6 +22540,7 @@ var ToggleButtonInput = function ToggleButtonInput(_ref) {
     offLabel: configuration.offLabel || 'Off',
     onIcon: configuration.onIcon || 'pi pi-check',
     offIcon: configuration.offIcon || 'pi pi-times',
+    disabled: configuration.disabled,
     checked: value,
     onChange: function onChange(e) {
       return setValue(e.value);
