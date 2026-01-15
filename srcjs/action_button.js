@@ -5,37 +5,54 @@ import 'primeicons/primeicons.css';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 const ActionButtonInput = ({ configuration, value, setValue }) => {
-  const [lang_selected, setlang_selected] = useState(configuration.default_langauge);
-  const [placeholder, setPlaceholder] = useState(configuration.label);
+  // Store merged configuration in state for partial updates
+  const [config, setConfig] = useState(() => ({ ...configuration }));
+
+  // Merge incoming configuration updates (supports partial updates)
+  useEffect(() => {
+    if (!configuration) return;
+    setConfig(prev => {
+      const merged = { ...prev };
+      for (const key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
+
+  const [lang_selected, setlang_selected] = useState(config.default_langauge);
+  const [label, setLabel] = useState(config.label);
 
   // Register the Shiny custom message handler for 'language_changed'
   useEffect(() => {
     if (window.Shiny) {
-      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function(newLanguage) {
+      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function(newLanguage) {
         setlang_selected(newLanguage);
       });
     }
-  }, []);
+  }, [config.message_handler_id_from_shiny]);
 
-  // Render placeholder
+  // Render label with translation
   useEffect(() => {
     // Dynamically create translate text
-    const translated_text = configuration.translation_list[lang_selected][configuration.label] || configuration.label; // Fallback to `value` if no translation
-    setPlaceholder(translated_text);
-  }, [lang_selected]);
+    const translated_text = config.translation_list?.[lang_selected]?.[config.label] || config.label;
+    setLabel(translated_text);
+  }, [lang_selected, config.label, config.translation_list]);
 
   return (
     <div className="card flex justify-content-center">
       <Button
-        label={placeholder}
-        icon={configuration.icon}
-        iconPos={configuration.iconPos}
-        disabled={configuration.disabled}
-        rounded={configuration.rounded}
-        text={configuration.text}
-        raised={configuration.raised}
-        outlined={configuration.outlined}
-        size={configuration.size}
+        label={label}
+        icon={config.icon}
+        iconPos={config.iconPos}
+        disabled={config.disabled}
+        rounded={config.rounded}
+        text={config.text}
+        raised={config.raised}
+        outlined={config.outlined}
+        size={config.size}
         onClick={() => setValue(value + 1)}
       />
     </div>

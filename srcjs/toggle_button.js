@@ -1,22 +1,38 @@
 import { reactShinyInput } from 'reactR';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToggleButton } from 'primereact/togglebutton';
 
 
 const ToggleButtonInput = ({ configuration, value, setValue }) => {
+  // Store merged configuration in state for partial updates
+  const [config, setConfig] = useState(() => ({ ...configuration }));
+
+  // Merge incoming configuration updates (supports partial updates)
+  useEffect(() => {
+    if (!configuration) return;
+    setConfig(prev => {
+      const merged = { ...prev };
+      for (const key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
 
   return (
     <div className="card flex justify-content-center">
       <ToggleButton
-        onLabel={configuration.onLabel || 'On'}
-        offLabel={configuration.offLabel || 'Off'}
-        onIcon={configuration.onIcon || 'pi pi-check'}
-        offIcon={configuration.offIcon || 'pi pi-times'}
-        disabled={configuration.disabled}
+        onLabel={config.onLabel || 'On'}
+        offLabel={config.offLabel || 'Off'}
+        onIcon={config.onIcon || 'pi pi-check'}
+        offIcon={config.offIcon || 'pi pi-times'}
+        disabled={config.disabled}
         checked={value}
         onChange={(e) => setValue(e.value)}
-        className={`${configuration.class || ''} w-9rem`} // Properly handle the className
-        {...(configuration.width ? { style: { width: configuration.width } } : {})} // Apply the width prop if it exists, else no style
+        className={`${config.class || ''} w-9rem`}
+        {...(config.width ? { style: { width: config.width } } : {})}
       />
     </div>
   );

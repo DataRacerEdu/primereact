@@ -22122,6 +22122,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primereact_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/button */ "./node_modules/primereact/button/button.esm.js");
 /* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primeicons/primeicons.css */ "./node_modules/primeicons/primeicons.css");
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -22137,42 +22143,64 @@ var ActionButtonInput = function ActionButtonInput(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
+  // Store merged configuration in state for partial updates
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      return _objectSpread({}, configuration);
+    }),
     _useState2 = _slicedToArray(_useState, 2),
-    lang_selected = _useState2[0],
-    setlang_selected = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.label),
+    config = _useState2[0],
+    setConfig = _useState2[1];
+
+  // Merge incoming configuration updates (supports partial updates)
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (!configuration) return;
+    setConfig(function (prev) {
+      var merged = _objectSpread({}, prev);
+      for (var key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(config.default_langauge),
     _useState4 = _slicedToArray(_useState3, 2),
-    placeholder = _useState4[0],
-    setPlaceholder = _useState4[1];
+    lang_selected = _useState4[0],
+    setlang_selected = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(config.label),
+    _useState6 = _slicedToArray(_useState5, 2),
+    label = _useState6[0],
+    setLabel = _useState6[1];
 
   // Register the Shiny custom message handler for 'language_changed'
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (window.Shiny) {
-      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function (newLanguage) {
+      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function (newLanguage) {
         setlang_selected(newLanguage);
       });
     }
-  }, []);
+  }, [config.message_handler_id_from_shiny]);
 
-  // Render placeholder
+  // Render label with translation
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    var _config$translation_l;
     // Dynamically create translate text
-    var translated_text = configuration.translation_list[lang_selected][configuration.label] || configuration.label; // Fallback to `value` if no translation
-    setPlaceholder(translated_text);
-  }, [lang_selected]);
+    var translated_text = ((_config$translation_l = config.translation_list) === null || _config$translation_l === void 0 || (_config$translation_l = _config$translation_l[lang_selected]) === null || _config$translation_l === void 0 ? void 0 : _config$translation_l[config.label]) || config.label;
+    setLabel(translated_text);
+  }, [lang_selected, config.label, config.translation_list]);
   return /*#__PURE__*/React.createElement("div", {
     className: "card flex justify-content-center"
   }, /*#__PURE__*/React.createElement(primereact_button__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-    label: placeholder,
-    icon: configuration.icon,
-    iconPos: configuration.iconPos,
-    disabled: configuration.disabled,
-    rounded: configuration.rounded,
-    text: configuration.text,
-    raised: configuration.raised,
-    outlined: configuration.outlined,
-    size: configuration.size,
+    label: label,
+    icon: config.icon,
+    iconPos: config.iconPos,
+    disabled: config.disabled,
+    rounded: config.rounded,
+    text: config.text,
+    raised: config.raised,
+    outlined: config.outlined,
+    size: config.size,
     onClick: function onClick() {
       return setValue(value + 1);
     }
@@ -22201,7 +22229,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primereact_calendar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/calendar */ "./node_modules/primereact/calendar/calendar.esm.js");
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
 /* harmony import */ var _utils_utils_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/utils.js */ "./srcjs/utils/utils.js");
-function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -22217,16 +22250,37 @@ var DateRangeInput = function DateRangeInput(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(value ? value.map(function (date) {
+  // Store merged configuration in state for partial updates
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      return _objectSpread({}, configuration);
+    }),
+    _useState2 = _slicedToArray(_useState, 2),
+    config = _useState2[0],
+    setConfig = _useState2[1];
+
+  // Merge incoming configuration updates (supports partial updates)
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (!configuration) return;
+    setConfig(function (prev) {
+      var merged = _objectSpread({}, prev);
+      for (var key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(value ? value.map(function (date) {
       return new Date(date);
     }) : null),
-    _useState2 = _slicedToArray(_useState, 2),
-    dates = _useState2[0],
-    setDates = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
     _useState4 = _slicedToArray(_useState3, 2),
-    clearClicked = _useState4[0],
-    setClearClicked = _useState4[1];
+    dates = _useState4[0],
+    setDates = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    clearClicked = _useState6[0],
+    setClearClicked = _useState6[1];
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (clearClicked) {
       setDates(null);
@@ -22251,13 +22305,9 @@ var DateRangeInput = function DateRangeInput(_ref) {
       return;
     }
   }, [value]);
-  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
-    console.log("dates:");
-    console.log(dates);
-  }, [dates]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "card flex justify-content-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(primereact_calendar__WEBPACK_IMPORTED_MODULE_2__["Calendar"], _extends({
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(primereact_calendar__WEBPACK_IMPORTED_MODULE_2__["Calendar"], {
     value: dates,
     onChange: function onChange(e) {
       return setDates(e.value);
@@ -22266,7 +22316,6 @@ var DateRangeInput = function DateRangeInput(_ref) {
       if (dates && dates.every(function (date) {
         return date;
       })) {
-        // Check for valid date selection
         setValue(dates.map(function (date) {
           return Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_4__["convertToDateString"])(date);
         }));
@@ -22278,24 +22327,19 @@ var DateRangeInput = function DateRangeInput(_ref) {
     readOnlyInput: true,
     onClearButtonClick: function onClearButtonClick() {
       setClearClicked(true);
-      console.log("clear cliked:");
-      ;
     },
     hideOnRangeSelection: true,
     showButtonBar: true,
-    placeholder: configuration.placeholder || "Select Date Range",
+    placeholder: config.placeholder || "Select Date Range",
     showIcon: true,
     showMinMaxRange: true,
-    className: "".concat(configuration["class"] || '', " w-full") // Properly handle the className
-  }, configuration.minDate ? {
-    minDate: new Date(configuration.minDate)
-  } : {}, configuration.maxDate ? {
-    maxDate: new Date(configuration.maxDate)
-  } : {}, configuration.width ? {
-    style: {
-      width: configuration.width
-    }
-  } : {})));
+    className: "".concat(config["class"] || '', " w-full"),
+    minDate: config.minDate ? new Date(config.minDate) : undefined,
+    maxDate: config.maxDate ? new Date(config.maxDate) : undefined,
+    style: config.width ? {
+      width: config.width
+    } : undefined
+  }));
 };
 function initDateRangeInput() {
   return Object(reactR__WEBPACK_IMPORTED_MODULE_0__["reactShinyInput"])('.date_range', 'primereact.date_range', DateRangeInput);
@@ -22352,7 +22396,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primereact_multiselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/multiselect */ "./node_modules/primereact/multiselect/multiselect.esm.js");
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
 /* harmony import */ var _utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/selectIconTemplate.js */ "./srcjs/utils/selectIconTemplate.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -22368,53 +22418,75 @@ var MultiSelectDropdown = function MultiSelectDropdown(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
+  // Store merged configuration in state for partial updates
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      return _objectSpread({}, configuration);
+    }),
     _useState2 = _slicedToArray(_useState, 2),
-    lang_selected = _useState2[0],
-    setlang_selected = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.placeholder),
+    config = _useState2[0],
+    setConfig = _useState2[1];
+
+  // Merge incoming configuration updates (supports partial updates)
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (!configuration) return;
+    setConfig(function (prev) {
+      var merged = _objectSpread({}, prev);
+      for (var key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(config.default_langauge),
     _useState4 = _slicedToArray(_useState3, 2),
-    placeholder = _useState4[0],
-    setPlaceholder = _useState4[1];
+    lang_selected = _useState4[0],
+    setlang_selected = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(config.placeholder),
+    _useState6 = _slicedToArray(_useState5, 2),
+    placeholder = _useState6[0],
+    setPlaceholder = _useState6[1];
 
   // Register the Shiny custom message handler for 'language_changed'
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (window.Shiny) {
-      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function (newLanguage) {
+      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function (newLanguage) {
         setlang_selected(newLanguage);
       });
     }
-  }, []);
+  }, [config.message_handler_id_from_shiny]);
 
   // Render placeholder
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    var _config$translation_l;
     // Dynamically create translate text
-    var translated_text = configuration.translation_list[lang_selected][configuration.placeholder] || configuration.placeholder; // Fallback to `value` if no translation
+    var translated_text = ((_config$translation_l = config.translation_list) === null || _config$translation_l === void 0 || (_config$translation_l = _config$translation_l[lang_selected]) === null || _config$translation_l === void 0 ? void 0 : _config$translation_l[config.placeholder]) || config.placeholder;
     setPlaceholder(translated_text);
-  }, [lang_selected]);
+  }, [lang_selected, config.placeholder, config.translation_list]);
   return /*#__PURE__*/React.createElement("div", {
     className: "card flex justify-content-center"
   }, /*#__PURE__*/React.createElement(primereact_multiselect__WEBPACK_IMPORTED_MODULE_2__["MultiSelect"], _extends({
     value: value,
-    options: configuration.options || [],
+    options: config.options || [],
     onChange: function onChange(e) {
       return e.value === undefined || e.value.length < 1 ? setValue(null) : setValue(e.value);
     },
     optionLabel: "title",
     placeholder: placeholder || "Select value(s)",
-    className: "".concat(configuration["class"] || '', " w-full") // Properly handle the className
-  }, configuration.width ? {
+    className: "".concat(config["class"] || '', " w-full")
+  }, config.width ? {
     style: {
-      width: configuration.width
+      width: config.width
     }
-  } : {}, configuration.iconClass ? {
+  } : {}, config.iconClass ? {
     itemTemplate: function itemTemplate(option) {
-      return Object(_utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__["withIconTemplate"])(option, configuration.iconClass);
+      return Object(_utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__["withIconTemplate"])(option, config.iconClass);
     }
   } : {}, {
     display: "chip",
-    filter: configuration.filter,
-    filterInputAutoFocus: configuration.filterInputAutoFocus
+    filter: config.filter,
+    filterInputAutoFocus: config.filterInputAutoFocus
   })));
 };
 function initMultiSelectInput() {
@@ -22440,7 +22512,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
 /* harmony import */ var _utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/selectIconTemplate.js */ "./srcjs/utils/selectIconTemplate.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -22456,51 +22534,73 @@ var SelectInput = function SelectInput(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(configuration.default_langauge),
+  // Store merged configuration in state for partial updates
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(function () {
+      return _objectSpread({}, configuration);
+    }),
     _useState2 = _slicedToArray(_useState, 2),
-    lang_selected = _useState2[0],
-    setlang_selected = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(configuration.placeholder),
+    config = _useState2[0],
+    setConfig = _useState2[1];
+
+  // Merge incoming configuration updates (supports partial updates)
+  Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(function () {
+    if (!configuration) return;
+    setConfig(function (prev) {
+      var merged = _objectSpread({}, prev);
+      for (var key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(config.default_langauge),
     _useState4 = _slicedToArray(_useState3, 2),
-    placeholder = _useState4[0],
-    setPlaceholder = _useState4[1];
+    lang_selected = _useState4[0],
+    setlang_selected = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(config.placeholder),
+    _useState6 = _slicedToArray(_useState5, 2),
+    placeholder = _useState6[0],
+    setPlaceholder = _useState6[1];
 
   // Register the Shiny custom message handler for 'language_changed'
   Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(function () {
     if (window.Shiny) {
-      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function (newLanguage) {
+      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function (newLanguage) {
         setlang_selected(newLanguage);
       });
     }
-  }, []);
+  }, [config.message_handler_id_from_shiny]);
 
   // Render placeholder
   Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(function () {
+    var _config$translation_l;
     // Dynamically create translate text
-    var translated_text = configuration.translation_list[lang_selected][configuration.placeholder] || configuration.placeholder; // Fallback to `value` if no translation
+    var translated_text = ((_config$translation_l = config.translation_list) === null || _config$translation_l === void 0 || (_config$translation_l = _config$translation_l[lang_selected]) === null || _config$translation_l === void 0 ? void 0 : _config$translation_l[config.placeholder]) || config.placeholder;
     setPlaceholder(translated_text);
-  }, [lang_selected]);
+  }, [lang_selected, config.placeholder, config.translation_list]);
   return /*#__PURE__*/React.createElement(primereact_dropdown__WEBPACK_IMPORTED_MODULE_1__["Dropdown"], _extends({
     value: value,
     onChange: function onChange(e) {
       return e.value === undefined ? setValue(null) : setValue(e.value);
     },
-    options: configuration.options || [],
+    options: config.options || [],
     optionLabel: "title",
     showClear: true,
     placeholder: placeholder || "Select value",
-    className: "".concat(configuration["class"] || '', " w-full") // Properly handle the className
-  }, configuration.width ? {
+    className: "".concat(config["class"] || '', " w-full")
+  }, config.width ? {
     style: {
-      width: configuration.width
+      width: config.width
     }
-  } : {}, configuration.iconClass ? {
+  } : {}, config.iconClass ? {
     itemTemplate: function itemTemplate(option) {
-      return Object(_utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__["withIconTemplate"])(option, configuration.iconClass);
+      return Object(_utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__["withIconTemplate"])(option, config.iconClass);
     }
-  } : {}, configuration.iconClass ? {
+  } : {}, config.iconClass ? {
     valueTemplate: function valueTemplate(option) {
-      return Object(_utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__["selectedWithIconTemplate"])(option, configuration.iconClass, configuration.placeholder);
+      return Object(_utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__["selectedWithIconTemplate"])(option, config.iconClass, config.placeholder);
     }
   } : {}));
 };
@@ -22525,7 +22625,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var primereact_togglebutton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/togglebutton */ "./node_modules/primereact/togglebutton/togglebutton.esm.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
@@ -22533,22 +22645,43 @@ var ToggleButtonInput = function ToggleButtonInput(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
+  // Store merged configuration in state for partial updates
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      return _objectSpread({}, configuration);
+    }),
+    _useState2 = _slicedToArray(_useState, 2),
+    config = _useState2[0],
+    setConfig = _useState2[1];
+
+  // Merge incoming configuration updates (supports partial updates)
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (!configuration) return;
+    setConfig(function (prev) {
+      var merged = _objectSpread({}, prev);
+      for (var key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "card flex justify-content-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(primereact_togglebutton__WEBPACK_IMPORTED_MODULE_2__["ToggleButton"], _extends({
-    onLabel: configuration.onLabel || 'On',
-    offLabel: configuration.offLabel || 'Off',
-    onIcon: configuration.onIcon || 'pi pi-check',
-    offIcon: configuration.offIcon || 'pi pi-times',
-    disabled: configuration.disabled,
+    onLabel: config.onLabel || 'On',
+    offLabel: config.offLabel || 'Off',
+    onIcon: config.onIcon || 'pi pi-check',
+    offIcon: config.offIcon || 'pi pi-times',
+    disabled: config.disabled,
     checked: value,
     onChange: function onChange(e) {
       return setValue(e.value);
     },
-    className: "".concat(configuration["class"] || '', " w-9rem") // Properly handle the className
-  }, configuration.width ? {
+    className: "".concat(config["class"] || '', " w-9rem")
+  }, config.width ? {
     style: {
-      width: configuration.width
+      width: config.width
     }
   } : {})));
 };
@@ -22573,6 +22706,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var primereact_selectbutton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/selectbutton */ "./node_modules/primereact/selectbutton/selectbutton.esm.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -22586,44 +22725,67 @@ var ToggleTextButtonInput = function ToggleTextButtonInput(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null),
+  // Store merged configuration in state for partial updates
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      return _objectSpread({}, configuration);
+    }),
     _useState2 = _slicedToArray(_useState, 2),
-    itemOptions = _useState2[0],
-    setItemOptions = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
+    config = _useState2[0],
+    setConfig = _useState2[1];
+
+  // Merge incoming configuration updates (supports partial updates)
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (!configuration) return;
+    setConfig(function (prev) {
+      var merged = _objectSpread({}, prev);
+      for (var key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null),
     _useState4 = _slicedToArray(_useState3, 2),
-    lang_selected = _useState4[0],
-    setlang_selected = _useState4[1]; //
+    itemOptions = _useState4[0],
+    setItemOptions = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(config.default_langauge),
+    _useState6 = _slicedToArray(_useState5, 2),
+    lang_selected = _useState6[0],
+    setlang_selected = _useState6[1];
 
   // Register the Shiny custom message handler for 'language_changed'
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (window.Shiny) {
-      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function (newLanguage) {
+      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function (newLanguage) {
         console.log("Language change trigger received:", newLanguage);
         setlang_selected(newLanguage);
       });
     }
-  }, []);
+  }, [config.message_handler_id_from_shiny]);
 
   // Render options
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     // Dynamically create `itemOptions`
-    var itemOptions = configuration.options.map(function (value) {
+    var options = (config.options || []).map(function (val) {
+      var _config$translation_l;
       return {
-        value: value,
-        name: configuration.translation_list[lang_selected][value] || value // Fallback to `value` if no translation
+        value: val,
+        name: ((_config$translation_l = config.translation_list) === null || _config$translation_l === void 0 || (_config$translation_l = _config$translation_l[lang_selected]) === null || _config$translation_l === void 0 ? void 0 : _config$translation_l[val]) || val
       };
     });
-    setItemOptions(itemOptions);
-  }, [lang_selected]);
+    setItemOptions(options);
+  }, [lang_selected, config.options, config.translation_list]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "card flex justify-content-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(primereact_selectbutton__WEBPACK_IMPORTED_MODULE_2__["SelectButton"], {
     value: value.value,
     onChange: function onChange(e) {
+      var _config$translation_l2;
       setValue({
         value: e.value,
-        name: configuration.translation_list[lang_selected][e.value]
+        name: ((_config$translation_l2 = config.translation_list) === null || _config$translation_l2 === void 0 || (_config$translation_l2 = _config$translation_l2[lang_selected]) === null || _config$translation_l2 === void 0 ? void 0 : _config$translation_l2[e.value]) || e.value
       });
     },
     optionLabel: "name",

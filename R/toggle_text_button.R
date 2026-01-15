@@ -39,11 +39,24 @@ toggle_text_button <- function(
 
 #' Update a toggle_text_button input
 #'
-#' Update a toggle_text_button input
+#' Update a toggle_text_button input. Only pass the parameters you want to update.
+#'
+#' @param session The Shiny session object
+#' @param inputId The input ID
+#' @param value New value (optional)
+#' @param options New options list (optional)
 #'
 #' @export
-update_toggle_text_button <- function(session, inputId, value, configuration = NULL) {
-  message <- list(value = value)
-  if (!is.null(configuration)) message$configuration <- configuration
-  session$sendInputMessage(inputId, message);
+update_toggle_text_button <- function(session, inputId, value = NULL, options = NULL) {
+  message <- list()
+  config <- list()
+
+  # Use list assignment to preserve NULL values
+  if (!missing(value)) message["value"] <- list(value)
+  if (!missing(options) && !is.null(options)) config$options <- options
+
+  if (length(config) > 0) message$configuration <- config
+  if (length(message) > 0) {
+    session$sendInputMessage(inputId, message)
+  }
 }

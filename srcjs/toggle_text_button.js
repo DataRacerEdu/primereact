@@ -3,35 +3,52 @@ import React, { useState, useEffect } from "react";
 import { SelectButton } from 'primereact/selectbutton';
 
 const ToggleTextButtonInput = ({ configuration, value, setValue }) => {
+  // Store merged configuration in state for partial updates
+  const [config, setConfig] = useState(() => ({ ...configuration }));
+
+  // Merge incoming configuration updates (supports partial updates)
+  useEffect(() => {
+    if (!configuration) return;
+    setConfig(prev => {
+      const merged = { ...prev };
+      for (const key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
+
   const [itemOptions, setItemOptions] = useState(null);
-  const [lang_selected, setlang_selected] = useState(configuration.default_langauge); //
+  const [lang_selected, setlang_selected] = useState(config.default_langauge);
 
   // Register the Shiny custom message handler for 'language_changed'
   useEffect(() => {
     if (window.Shiny) {
-      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function(newLanguage) {
+      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function(newLanguage) {
         console.log("Language change trigger received:", newLanguage);
         setlang_selected(newLanguage);
       });
     }
-  }, []);
+  }, [config.message_handler_id_from_shiny]);
 
   // Render options
   useEffect(() => {
     // Dynamically create `itemOptions`
-    const itemOptions = configuration.options.map(value => ({
-        value: value,
-        name: configuration.translation_list[lang_selected][value] || value, // Fallback to `value` if no translation
+    const options = (config.options || []).map(val => ({
+        value: val,
+        name: config.translation_list?.[lang_selected]?.[val] || val,
     }));
-    setItemOptions(itemOptions);
-  }, [lang_selected]);
+    setItemOptions(options);
+  }, [lang_selected, config.options, config.translation_list]);
 
   return (
     <div className="card flex justify-content-center">
       <SelectButton
         value={value.value}
         onChange={(e) => {
-          setValue({value: e.value, name: configuration.translation_list[lang_selected][e.value]});
+          setValue({value: e.value, name: config.translation_list?.[lang_selected]?.[e.value] || e.value});
         }}
         optionLabel="name"
         options={itemOptions}

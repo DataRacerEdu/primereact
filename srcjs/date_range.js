@@ -6,6 +6,23 @@ import { convertToDateString } from "./utils/utils.js";
 
 
 const DateRangeInput = ({ configuration, value, setValue }) => {
+  // Store merged configuration in state for partial updates
+  const [config, setConfig] = useState(() => ({ ...configuration }));
+
+  // Merge incoming configuration updates (supports partial updates)
+  useEffect(() => {
+    if (!configuration) return;
+    setConfig(prev => {
+      const merged = { ...prev };
+      for (const key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
+
   const [dates, setDates] = useState(value ? value.map(date => new Date(date)) : null);
   const [clearClicked, setClearClicked] = useState(false);
 
@@ -32,18 +49,13 @@ const DateRangeInput = ({ configuration, value, setValue }) => {
     }
   }, [value]);
 
-  useEffect(() => {
-    console.log("dates:");
-    console.log(dates);
-  }, [dates]);
-
   return (
     <div className="card flex justify-content-center">
       <Calendar
         value={dates}
         onChange={(e) => setDates((e.value))}
         onHide={() => {
-          if (dates && dates.every(date => date)) {  // Check for valid date selection
+          if (dates && dates.every(date => date)) {
             setValue(dates.map(date => convertToDateString(date)));
           } else {
             setValue([null, null]);
@@ -53,17 +65,16 @@ const DateRangeInput = ({ configuration, value, setValue }) => {
         readOnlyInput
         onClearButtonClick={() => {
           setClearClicked(true);
-          console.log("clear cliked:");;
         }}
         hideOnRangeSelection
         showButtonBar
-        placeholder={configuration.placeholder || "Select Date Range"}
+        placeholder={config.placeholder || "Select Date Range"}
         showIcon
         showMinMaxRange
-        className={`${configuration.class || ''} w-full`} // Properly handle the className
-        {...(configuration.minDate ? { minDate: new Date(configuration.minDate) } : {})} // Apply the width prop if it
-        {...(configuration.maxDate ? { maxDate: new Date(configuration.maxDate) } : {})}
-        {...(configuration.width ? { style: { width: configuration.width } } : {})} // Apply the width prop if it exists, else no style
+        className={`${config.class || ''} w-full`}
+        minDate={config.minDate ? new Date(config.minDate) : undefined}
+        maxDate={config.maxDate ? new Date(config.maxDate) : undefined}
+        style={config.width ? { width: config.width } : undefined}
       />
     </div>
   )

@@ -1,44 +1,61 @@
 import { reactShinyInput } from 'reactR';
 import { Dropdown } from "primereact/dropdown";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { withIconTemplate, selectedWithIconTemplate } from "./utils/selectIconTemplate.js";
 
 
 const SelectInput = ({ configuration, value, setValue }) => {
-  const [lang_selected, setlang_selected] = useState(configuration.default_langauge);
-  const [placeholder, setPlaceholder] = useState(configuration.placeholder);
+  // Store merged configuration in state for partial updates
+  const [config, setConfig] = useState(() => ({ ...configuration }));
+
+  // Merge incoming configuration updates (supports partial updates)
+  useEffect(() => {
+    if (!configuration) return;
+    setConfig(prev => {
+      const merged = { ...prev };
+      for (const key in configuration) {
+        if (configuration[key] !== undefined) {
+          merged[key] = configuration[key];
+        }
+      }
+      return merged;
+    });
+  }, [JSON.stringify(configuration)]);
+
+  const [lang_selected, setlang_selected] = useState(config.default_langauge);
+  const [placeholder, setPlaceholder] = useState(config.placeholder);
 
   // Register the Shiny custom message handler for 'language_changed'
   useEffect(() => {
     if (window.Shiny) {
-      Shiny.addCustomMessageHandler(configuration.message_handler_id_from_shiny, function(newLanguage) {
+      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function(newLanguage) {
         setlang_selected(newLanguage);
       });
     }
-  }, []);
+  }, [config.message_handler_id_from_shiny]);
 
   // Render placeholder
   useEffect(() => {
     // Dynamically create translate text
-    const translated_text = configuration.translation_list[lang_selected][configuration.placeholder] || configuration.placeholder; // Fallback to `value` if no translation
+    const translated_text = config.translation_list?.[lang_selected]?.[config.placeholder] || config.placeholder;
     setPlaceholder(translated_text);
-  }, [lang_selected]);
+  }, [lang_selected, config.placeholder, config.translation_list]);
 
 
   return (
     <Dropdown
       value={value}
       onChange={(e) => e.value === undefined ? setValue(null) : setValue(e.value)}
-      options={configuration.options || []}
+      options={config.options || []}
       optionLabel="title"
       showClear
       placeholder={placeholder || "Select value"}
-      className={`${configuration.class || ''} w-full`} // Properly handle the className
-      {...(configuration.width ? { style: { width: configuration.width } } : {})} // Apply the width prop if it exists, else
-      {...(configuration.iconClass ? { itemTemplate: (option) => withIconTemplate(option, configuration.iconClass)  } : {})}
-      {...(configuration.iconClass ? { valueTemplate: (option) => selectedWithIconTemplate(option, configuration.iconClass, configuration.placeholder)  } : {})}
-      />
+      className={`${config.class || ''} w-full`}
+      {...(config.width ? { style: { width: config.width } } : {})}
+      {...(config.iconClass ? { itemTemplate: (option) => withIconTemplate(option, config.iconClass) } : {})}
+      {...(config.iconClass ? { valueTemplate: (option) => selectedWithIconTemplate(option, config.iconClass, config.placeholder) } : {})}
+    />
   );
 };
 
