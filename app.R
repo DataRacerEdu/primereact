@@ -179,7 +179,7 @@ ui <- bslib::page(
   fluidRow(
     column(4, actionButton("ttb_value_set", "Set value"), actionButton("ttb_value_clear", "Clear")),
     column(4, actionButton("ttb_options", "New options")),
-    column(4, "")
+    column(4, actionButton("ttb_disable", "Disable"), actionButton("ttb_enable", "Enable"))
   ),
 
   hr(),
@@ -386,6 +386,12 @@ server <- function(input, output, session) {
   })
   observeEvent(input$ttb_options, {
     update_toggle_text_button(session, "ttbTest", options = c("a", "b", "c"))
+  })
+  observeEvent(input$ttb_disable, {
+    update_toggle_text_button(session, "ttbTest", disabled = TRUE)
+  })
+  observeEvent(input$ttb_enable, {
+    update_toggle_text_button(session, "ttbTest", disabled = FALSE)
   })
 
   # ============================================================================

@@ -10,6 +10,7 @@ toggle_text_button <- function(
     inputId,
     value = list(value = NULL, name = NULL),
     options,
+    disabled = FALSE,
     default_langauge = 'en',
     translation_list = list(
       en = list(`Select value` = "Select value")
@@ -29,6 +30,7 @@ toggle_text_button <- function(
     default = value,
     list(
       options = options,
+      disabled = disabled,
       default_langauge = default_langauge,
       translation_list = translation_list,
       message_handler_id_from_shiny = message_handler_id_from_shiny
@@ -45,15 +47,18 @@ toggle_text_button <- function(
 #' @param inputId The input ID
 #' @param value New value (optional)
 #' @param options New options list (optional)
+#' @param disabled Enable/disable the input (optional)
 #'
 #' @export
-update_toggle_text_button <- function(session, inputId, value = NULL, options = NULL) {
+update_toggle_text_button <- function(session, inputId, value = NULL, options = NULL,
+                                       disabled = NULL) {
   message <- list()
   config <- list()
 
   # Use list assignment to preserve NULL values
   if (!missing(value)) message["value"] <- list(value)
   if (!missing(options) && !is.null(options)) config$options <- options
+  if (!missing(disabled) && !is.null(disabled)) config$disabled <- disabled
 
   if (length(config) > 0) message$configuration <- config
   if (length(message) > 0) {

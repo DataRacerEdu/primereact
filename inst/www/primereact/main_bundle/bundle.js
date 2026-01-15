@@ -22806,7 +22806,8 @@ var ToggleTextButtonInput = function ToggleTextButtonInput(_ref) {
     optionLabel: "name",
     options: itemOptions,
     allowEmpty: false,
-    multiple: false
+    multiple: false,
+    disabled: config.disabled
   }));
 };
 function initToggleTextButtonInput() {

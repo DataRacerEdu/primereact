@@ -54,6 +54,7 @@ const ToggleTextButtonInput = ({ configuration, value, setValue }) => {
         options={itemOptions}
         allowEmpty={false}
         multiple={false}
+        disabled={config.disabled}
       />
     </div>
   );
