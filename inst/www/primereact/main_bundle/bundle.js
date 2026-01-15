@@ -22369,6 +22369,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// Bootstrap override fixes - injected after DOM ready to ensure it loads after Bootstrap
+var primereactFixesCSS = "\n/* PrimeReact Bootstrap Override Fixes */\n.p-button { border-radius: var(--border-radius) !important; }\n.p-button.p-button-rounded { border-radius: 2rem !important; }\n.p-togglebutton { border-radius: var(--border-radius) !important; }\n.p-selectbutton .p-button { border-radius: 0 !important; }\n.p-selectbutton .p-button:first-of-type { border-top-left-radius: var(--border-radius) !important; border-bottom-left-radius: var(--border-radius) !important; }\n.p-selectbutton .p-button:last-of-type { border-top-right-radius: var(--border-radius) !important; border-bottom-right-radius: var(--border-radius) !important; }\n.p-dropdown { border-radius: var(--border-radius) !important; }\n.p-multiselect { border-radius: var(--border-radius) !important; }\n.p-calendar .p-inputtext { border-top-left-radius: var(--border-radius) !important; border-bottom-left-radius: var(--border-radius) !important; border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; }\n.p-calendar .p-datepicker-trigger { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; border-top-right-radius: var(--border-radius) !important; border-bottom-right-radius: var(--border-radius) !important; }\n.p-inputtext { border-radius: var(--border-radius) !important; }\n";
+
+// Inject CSS after DOM is ready (after Bootstrap loads)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', injectFixesCSS);
+} else {
+  injectFixesCSS();
+}
+function injectFixesCSS() {
+  var style = document.createElement('style');
+  style.textContent = primereactFixesCSS;
+  document.head.appendChild(style);
+}
+
 // Initialize inputs
 Object(_action_button_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
 Object(_date_range_js__WEBPACK_IMPORTED_MODULE_1__["default"])();
