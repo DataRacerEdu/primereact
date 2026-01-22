@@ -13,9 +13,37 @@ toggle_button(
   offIcon = "pi pi-times",
   class = NULL,
   width = NULL,
-  disabled = FALSE
+  disabled = FALSE,
+  translation_list = NULL,
+  default_langauge = "en",
+  message_handler_id_from_shiny = "language_changed"
 )
 }
+\arguments{
+\item{inputId}{The input ID}
+
+\item{value}{Initial value (TRUE/FALSE)}
+
+\item{onLabel}{Label when toggled on (can be translation key)}
+
+\item{offLabel}{Label when toggled off (can be translation key)}
+
+\item{onIcon}{Icon class when toggled on}
+
+\item{offIcon}{Icon class when toggled off}
+
+\item{class}{CSS class}
+
+\item{width}{Width}
+
+\item{disabled}{Disabled state}
+
+\item{translation_list}{Optional named list of translations by language}
+
+\item{default_langauge}{Default language code (default: 'en')}
+
+\item{message_handler_id_from_shiny}{Shiny message handler ID for language changes}
+}
 \description{
-ToggleButton
+ToggleButton with optional translation support.
 }

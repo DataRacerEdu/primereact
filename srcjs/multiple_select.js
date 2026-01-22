@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { MultiSelect } from 'primereact/multiselect';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { withIconTemplate } from "./utils/selectIconTemplate.js";
+import { registerLanguageHandler } from "./utils/languageHandler.js";
 
 
 const MultiSelectDropdown = ({ configuration, value, setValue }) => {
@@ -23,16 +24,18 @@ const MultiSelectDropdown = ({ configuration, value, setValue }) => {
     });
   }, [JSON.stringify(configuration)]);
 
-  const [lang_selected, setlang_selected] = useState(config.default_langauge);
-  const [placeholder, setPlaceholder] = useState(config.placeholder);
+  const [lang_selected, setlang_selected] = useState(configuration.default_langauge);
+  const [placeholder, setPlaceholder] = useState(() => {
+    return configuration.translation_list?.[configuration.default_langauge]?.[configuration.placeholder] || configuration.placeholder;
+  });
 
-  // Register the Shiny custom message handler for 'language_changed'
+  // Register for language changes using shared handler
   useEffect(() => {
-    if (window.Shiny) {
-      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function(newLanguage) {
-        setlang_selected(newLanguage);
-      });
-    }
+    if (!config.message_handler_id_from_shiny) return;
+    const cleanup = registerLanguageHandler(config.message_handler_id_from_shiny, (newLanguage) => {
+      setlang_selected(newLanguage);
+    });
+    return cleanup;
   }, [config.message_handler_id_from_shiny]);
 
   // Render placeholder

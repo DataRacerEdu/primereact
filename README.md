@@ -160,6 +160,127 @@ select_input(
 | `mapping` | `NULL` | Optional filename → code mapping |
 | `overwrite` | `FALSE` | Overwrite existing files |
 
+## Translation Support (Optional)
+
+All primereact components support optional key-based translation for dynamic language switching.
+
+### Step 1: Define translations
+
+Create a named list where keys are language codes and values are translation dictionaries:
+
+```r
+translations <- list(
+  en = list(
+    my_placeholder = "Select a country",
+    btn_submit = "Submit"
+  ),
+  es = list(
+    my_placeholder = "Selecciona un país",
+    btn_submit = "Enviar"
+  )
+)
+```
+
+### Step 2: Use translation keys in components
+
+Pass `translation_list` and use keys (not text) for translatable fields:
+
+```r
+select_input(
+  inputId = "country",
+  placeholder = "my_placeholder",
+  options = list(...),
+  translation_list = translations,
+  default_langauge = "en"
+)
+```
+
+### Step 3: Switch language from server
+
+Send a message to change language:
+
+```r
+server <- function(input, output, session) {
+  observeEvent(input$lang_es, {
+    session$sendCustomMessage("language_changed", "es")
+  })
+}
+```
+
+### Complete Example
+
+```r
+library(shiny)
+library(primereact)
+
+translations <- list(
+  en = list(select_item = "Select item", btn_go = "Go"),
+  es = list(select_item = "Seleccionar", btn_go = "Ir")
+)
+
+ui <- fluidPage(
+  actionButton("lang_en", "EN"),
+  actionButton("lang_es", "ES"),
+
+  select_input(
+    inputId = "item",
+    placeholder = "select_item",
+    options = list(list(title = "A", item = "a"), list(title = "B", item = "b")),
+    translation_list = translations,
+    default_langauge = "en"
+  ),
+
+  action_button(
+    inputId = "go",
+    label = "btn_go",
+    translation_list = translations,
+    default_langauge = "en"
+  )
+)
+
+server <- function(input, output, session) {
+  observeEvent(input$lang_en, {
+    session$sendCustomMessage("language_changed", "en")
+  })
+  observeEvent(input$lang_es, {
+    session$sendCustomMessage("language_changed", "es")
+  })
+}
+
+shinyApp(ui, server)
+```
+
+### Translatable Fields by Component
+
+| Component | Translatable Fields |
+|-----------|---------------------|
+| `select_input()` | `placeholder` |
+| `multiple_select_input()` | `placeholder` |
+| `toggle_button()` | `onLabel`, `offLabel` |
+| `toggle_text_button()` | `options` |
+| `date_range_input()` | `placeholder` |
+| `action_button()` | `label` |
+
+### Translation Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `translation_list` | `NULL` | Named list of translations by language |
+| `default_langauge` | `'en'` | Default language code |
+| `message_handler_id_from_shiny` | `"language_changed"` | Shiny message handler ID |
+
+### Without Translation
+
+Simply omit translation parameters to use plain text:
+
+```r
+select_input(
+  inputId = "country",
+  placeholder = "Select a country",
+  options = list(...)
+)
+```
+
 ## Development
 
 ### Build JS bundle
@@ -189,3 +310,4 @@ reactR::scaffoldReactShinyInput(
 See the `examples/` folder:
 - `app1/` - Component update tests
 - `app2/` - Custom icons demo
+- `app3/` - Translation demo (English, Spanish, French)

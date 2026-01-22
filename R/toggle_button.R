@@ -1,6 +1,19 @@
 #' ToggleButton
 #'
-#' ToggleButton
+#' ToggleButton with optional translation support.
+#'
+#' @param inputId The input ID
+#' @param value Initial value (TRUE/FALSE)
+#' @param onLabel Label when toggled on (can be translation key)
+#' @param offLabel Label when toggled off (can be translation key)
+#' @param onIcon Icon class when toggled on
+#' @param offIcon Icon class when toggled off
+#' @param class CSS class
+#' @param width Width
+#' @param disabled Disabled state
+#' @param translation_list Optional named list of translations by language
+#' @param default_langauge Default language code (default: 'en')
+#' @param message_handler_id_from_shiny Shiny message handler ID for language changes
 #'
 #' @importFrom reactR createReactShinyInput
 #' @importFrom htmltools htmlDependency tags
@@ -15,7 +28,10 @@ toggle_button <- function(
     offIcon = "pi pi-times",
     class = NULL,
     width = NULL,
-    disabled = FALSE
+    disabled = FALSE,
+    translation_list = NULL,
+    default_langauge = 'en',
+    message_handler_id_from_shiny = "language_changed"
   ) {
   reactR::createReactShinyInput(
     inputId,
@@ -34,7 +50,10 @@ toggle_button <- function(
       onIcon = onIcon,
       offIcon = offIcon,
       disabled = disabled,
-      class = class
+      class = class,
+      translation_list = translation_list,
+      default_langauge = default_langauge,
+      message_handler_id_from_shiny = message_handler_id_from_shiny
     ),
     htmltools::tags$div
   )

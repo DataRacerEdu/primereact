@@ -11,9 +11,33 @@ date_range_input(
   class = NULL,
   minDate = NULL,
   maxDate = NULL,
-  width = NULL
+  width = NULL,
+  translation_list = NULL,
+  default_langauge = "en",
+  message_handler_id_from_shiny = "language_changed"
 )
 }
+\arguments{
+\item{inputId}{The input ID}
+
+\item{value}{Initial date range value}
+
+\item{placeholder}{Placeholder text (can be translation key)}
+
+\item{class}{CSS class}
+
+\item{minDate}{Minimum selectable date}
+
+\item{maxDate}{Maximum selectable date}
+
+\item{width}{Width}
+
+\item{translation_list}{Optional named list of translations by language}
+
+\item{default_langauge}{Default language code (default: 'en')}
+
+\item{message_handler_id_from_shiny}{Shiny message handler ID for language changes}
+}
 \description{
-Date Range Input
+Date Range Input with optional translation support.
 }

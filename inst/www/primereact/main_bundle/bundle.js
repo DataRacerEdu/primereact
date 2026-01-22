@@ -22530,6 +22530,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primereact_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/button */ "./node_modules/primereact/button/button.esm.js");
 /* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primeicons/primeicons.css */ "./node_modules/primeicons/primeicons.css");
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
+/* harmony import */ var _utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/languageHandler.js */ "./srcjs/utils/languageHandler.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -22542,6 +22543,7 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
 
 
 
@@ -22572,22 +22574,25 @@ var ActionButtonInput = function ActionButtonInput(_ref) {
       return merged;
     });
   }, [JSON.stringify(configuration)]);
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(config.default_langauge),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
     _useState4 = _slicedToArray(_useState3, 2),
     lang_selected = _useState4[0],
     setlang_selected = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(config.label),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      var _configuration$transl;
+      return ((_configuration$transl = configuration.translation_list) === null || _configuration$transl === void 0 || (_configuration$transl = _configuration$transl[configuration.default_langauge]) === null || _configuration$transl === void 0 ? void 0 : _configuration$transl[configuration.label]) || configuration.label;
+    }),
     _useState6 = _slicedToArray(_useState5, 2),
     label = _useState6[0],
     setLabel = _useState6[1];
 
-  // Register the Shiny custom message handler for 'language_changed'
+  // Register for language changes using shared handler
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
-    if (window.Shiny) {
-      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function (newLanguage) {
-        setlang_selected(newLanguage);
-      });
-    }
+    if (!config.message_handler_id_from_shiny) return;
+    var cleanup = Object(_utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_5__["registerLanguageHandler"])(config.message_handler_id_from_shiny, function (newLanguage) {
+      setlang_selected(newLanguage);
+    });
+    return cleanup;
   }, [config.message_handler_id_from_shiny]);
 
   // Render label with translation
@@ -22637,6 +22642,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primereact_calendar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/calendar */ "./node_modules/primereact/calendar/calendar.esm.js");
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
 /* harmony import */ var _utils_utils_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/utils.js */ "./srcjs/utils/utils.js");
+/* harmony import */ var _utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/languageHandler.js */ "./srcjs/utils/languageHandler.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -22649,6 +22655,7 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
 
 
 
@@ -22679,16 +22686,45 @@ var DateRangeInput = function DateRangeInput(_ref) {
       return merged;
     });
   }, [JSON.stringify(configuration)]);
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(value ? value.map(function (date) {
+
+  // Translation support
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
+    _useState4 = _slicedToArray(_useState3, 2),
+    lang_selected = _useState4[0],
+    setlang_selected = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      var _configuration$transl;
+      return ((_configuration$transl = configuration.translation_list) === null || _configuration$transl === void 0 || (_configuration$transl = _configuration$transl[configuration.default_langauge]) === null || _configuration$transl === void 0 ? void 0 : _configuration$transl[configuration.placeholder]) || configuration.placeholder || "Select Date Range";
+    }),
+    _useState6 = _slicedToArray(_useState5, 2),
+    placeholder = _useState6[0],
+    setPlaceholder = _useState6[1];
+
+  // Register for language changes using shared handler
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (!config.message_handler_id_from_shiny) return;
+    var cleanup = Object(_utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_5__["registerLanguageHandler"])(config.message_handler_id_from_shiny, function (newLanguage) {
+      setlang_selected(newLanguage);
+    });
+    return cleanup;
+  }, [config.message_handler_id_from_shiny]);
+
+  // Translate placeholder when language changes
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    var _config$translation_l;
+    var translatedPlaceholder = ((_config$translation_l = config.translation_list) === null || _config$translation_l === void 0 || (_config$translation_l = _config$translation_l[lang_selected]) === null || _config$translation_l === void 0 ? void 0 : _config$translation_l[config.placeholder]) || config.placeholder || "Select Date Range";
+    setPlaceholder(translatedPlaceholder);
+  }, [lang_selected, config.placeholder, config.translation_list]);
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(value ? value.map(function (date) {
       return new Date(date);
     }) : null),
-    _useState4 = _slicedToArray(_useState3, 2),
-    dates = _useState4[0],
-    setDates = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
-    _useState6 = _slicedToArray(_useState5, 2),
-    clearClicked = _useState6[0],
-    setClearClicked = _useState6[1];
+    _useState8 = _slicedToArray(_useState7, 2),
+    dates = _useState8[0],
+    setDates = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+    _useState10 = _slicedToArray(_useState9, 2),
+    clearClicked = _useState10[0],
+    setClearClicked = _useState10[1];
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (clearClicked) {
       setDates(null);
@@ -22738,7 +22774,7 @@ var DateRangeInput = function DateRangeInput(_ref) {
     },
     hideOnRangeSelection: true,
     showButtonBar: true,
-    placeholder: config.placeholder || "Select Date Range",
+    placeholder: placeholder,
     showIcon: true,
     showMinMaxRange: true,
     className: "".concat(config["class"] || '', " w-full"),
@@ -22823,6 +22859,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primereact_multiselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/multiselect */ "./node_modules/primereact/multiselect/multiselect.esm.js");
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
 /* harmony import */ var _utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/selectIconTemplate.js */ "./srcjs/utils/selectIconTemplate.js");
+/* harmony import */ var _utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/languageHandler.js */ "./srcjs/utils/languageHandler.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -22836,6 +22873,7 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
 
 
 
@@ -22866,22 +22904,25 @@ var MultiSelectDropdown = function MultiSelectDropdown(_ref) {
       return merged;
     });
   }, [JSON.stringify(configuration)]);
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(config.default_langauge),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
     _useState4 = _slicedToArray(_useState3, 2),
     lang_selected = _useState4[0],
     setlang_selected = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(config.placeholder),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      var _configuration$transl;
+      return ((_configuration$transl = configuration.translation_list) === null || _configuration$transl === void 0 || (_configuration$transl = _configuration$transl[configuration.default_langauge]) === null || _configuration$transl === void 0 ? void 0 : _configuration$transl[configuration.placeholder]) || configuration.placeholder;
+    }),
     _useState6 = _slicedToArray(_useState5, 2),
     placeholder = _useState6[0],
     setPlaceholder = _useState6[1];
 
-  // Register the Shiny custom message handler for 'language_changed'
+  // Register for language changes using shared handler
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
-    if (window.Shiny) {
-      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function (newLanguage) {
-        setlang_selected(newLanguage);
-      });
-    }
+    if (!config.message_handler_id_from_shiny) return;
+    var cleanup = Object(_utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_5__["registerLanguageHandler"])(config.message_handler_id_from_shiny, function (newLanguage) {
+      setlang_selected(newLanguage);
+    });
+    return cleanup;
   }, [config.message_handler_id_from_shiny]);
 
   // Render placeholder
@@ -22939,6 +22980,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var primereact_resources_themes_lara_light_cyan_theme_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primereact/resources/themes/lara-light-cyan/theme.css */ "./node_modules/primereact/resources/themes/lara-light-cyan/theme.css");
 /* harmony import */ var _utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/selectIconTemplate.js */ "./srcjs/utils/selectIconTemplate.js");
+/* harmony import */ var _utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/languageHandler.js */ "./srcjs/utils/languageHandler.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -22952,6 +22994,7 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
 
 
 
@@ -22982,22 +23025,25 @@ var SelectInput = function SelectInput(_ref) {
       return merged;
     });
   }, [JSON.stringify(configuration)]);
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(config.default_langauge),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(configuration.default_langauge),
     _useState4 = _slicedToArray(_useState3, 2),
     lang_selected = _useState4[0],
     setlang_selected = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(config.placeholder),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(function () {
+      var _configuration$transl;
+      return ((_configuration$transl = configuration.translation_list) === null || _configuration$transl === void 0 || (_configuration$transl = _configuration$transl[configuration.default_langauge]) === null || _configuration$transl === void 0 ? void 0 : _configuration$transl[configuration.placeholder]) || configuration.placeholder;
+    }),
     _useState6 = _slicedToArray(_useState5, 2),
     placeholder = _useState6[0],
     setPlaceholder = _useState6[1];
 
-  // Register the Shiny custom message handler for 'language_changed'
+  // Register for language changes using shared handler
   Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(function () {
-    if (window.Shiny) {
-      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function (newLanguage) {
-        setlang_selected(newLanguage);
-      });
-    }
+    if (!config.message_handler_id_from_shiny) return;
+    var cleanup = Object(_utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_5__["registerLanguageHandler"])(config.message_handler_id_from_shiny, function (newLanguage) {
+      setlang_selected(newLanguage);
+    });
+    return cleanup;
   }, [config.message_handler_id_from_shiny]);
 
   // Render placeholder
@@ -23027,7 +23073,7 @@ var SelectInput = function SelectInput(_ref) {
     }
   } : {}, config.iconClass ? {
     valueTemplate: function valueTemplate(option) {
-      return Object(_utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__["selectedWithIconTemplate"])(option, config.iconClass, config.placeholder);
+      return Object(_utils_selectIconTemplate_js__WEBPACK_IMPORTED_MODULE_4__["selectedWithIconTemplate"])(option, config.iconClass, placeholder);
     }
   } : {}));
 };
@@ -23052,6 +23098,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var primereact_togglebutton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/togglebutton */ "./node_modules/primereact/togglebutton/togglebutton.esm.js");
+/* harmony import */ var _utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/languageHandler.js */ "./srcjs/utils/languageHandler.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -23065,6 +23112,7 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
 
 
 
@@ -23093,11 +23141,49 @@ var ToggleButtonInput = function ToggleButtonInput(_ref) {
       return merged;
     });
   }, [JSON.stringify(configuration)]);
+
+  // Translation support
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
+    _useState4 = _slicedToArray(_useState3, 2),
+    lang_selected = _useState4[0],
+    setlang_selected = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      var _configuration$transl;
+      return ((_configuration$transl = configuration.translation_list) === null || _configuration$transl === void 0 || (_configuration$transl = _configuration$transl[configuration.default_langauge]) === null || _configuration$transl === void 0 ? void 0 : _configuration$transl[configuration.onLabel]) || configuration.onLabel || 'On';
+    }),
+    _useState6 = _slicedToArray(_useState5, 2),
+    onLabel = _useState6[0],
+    setOnLabel = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      var _configuration$transl2;
+      return ((_configuration$transl2 = configuration.translation_list) === null || _configuration$transl2 === void 0 || (_configuration$transl2 = _configuration$transl2[configuration.default_langauge]) === null || _configuration$transl2 === void 0 ? void 0 : _configuration$transl2[configuration.offLabel]) || configuration.offLabel || 'Off';
+    }),
+    _useState8 = _slicedToArray(_useState7, 2),
+    offLabel = _useState8[0],
+    setOffLabel = _useState8[1];
+
+  // Register for language changes using shared handler
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (!config.message_handler_id_from_shiny) return;
+    var cleanup = Object(_utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_3__["registerLanguageHandler"])(config.message_handler_id_from_shiny, function (newLanguage) {
+      setlang_selected(newLanguage);
+    });
+    return cleanup;
+  }, [config.message_handler_id_from_shiny]);
+
+  // Translate labels when language changes
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    var _config$translation_l, _config$translation_l2;
+    var translatedOnLabel = ((_config$translation_l = config.translation_list) === null || _config$translation_l === void 0 || (_config$translation_l = _config$translation_l[lang_selected]) === null || _config$translation_l === void 0 ? void 0 : _config$translation_l[config.onLabel]) || config.onLabel || 'On';
+    var translatedOffLabel = ((_config$translation_l2 = config.translation_list) === null || _config$translation_l2 === void 0 || (_config$translation_l2 = _config$translation_l2[lang_selected]) === null || _config$translation_l2 === void 0 ? void 0 : _config$translation_l2[config.offLabel]) || config.offLabel || 'Off';
+    setOnLabel(translatedOnLabel);
+    setOffLabel(translatedOffLabel);
+  }, [lang_selected, config.onLabel, config.offLabel, config.translation_list]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "card flex justify-content-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(primereact_togglebutton__WEBPACK_IMPORTED_MODULE_2__["ToggleButton"], _extends({
-    onLabel: config.onLabel || 'On',
-    offLabel: config.offLabel || 'Off',
+    onLabel: onLabel,
+    offLabel: offLabel,
     onIcon: config.onIcon || 'pi pi-check',
     offIcon: config.offIcon || 'pi pi-times',
     disabled: config.disabled,
@@ -23133,6 +23219,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var primereact_selectbutton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primereact/selectbutton */ "./node_modules/primereact/selectbutton/selectbutton.esm.js");
+/* harmony import */ var _utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/languageHandler.js */ "./srcjs/utils/languageHandler.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -23145,6 +23232,7 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
 
 
 
@@ -23173,23 +23261,30 @@ var ToggleTextButtonInput = function ToggleTextButtonInput(_ref) {
       return merged;
     });
   }, [JSON.stringify(configuration)]);
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(configuration.default_langauge),
     _useState4 = _slicedToArray(_useState3, 2),
-    itemOptions = _useState4[0],
-    setItemOptions = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(config.default_langauge),
-    _useState6 = _slicedToArray(_useState5, 2),
-    lang_selected = _useState6[0],
-    setlang_selected = _useState6[1];
-
-  // Register the Shiny custom message handler for 'language_changed'
-  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
-    if (window.Shiny) {
-      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function (newLanguage) {
-        console.log("Language change trigger received:", newLanguage);
-        setlang_selected(newLanguage);
+    lang_selected = _useState4[0],
+    setlang_selected = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(function () {
+      return (configuration.options || []).map(function (val) {
+        var _configuration$transl;
+        return {
+          value: val,
+          name: ((_configuration$transl = configuration.translation_list) === null || _configuration$transl === void 0 || (_configuration$transl = _configuration$transl[configuration.default_langauge]) === null || _configuration$transl === void 0 ? void 0 : _configuration$transl[val]) || val
+        };
       });
-    }
+    }),
+    _useState6 = _slicedToArray(_useState5, 2),
+    itemOptions = _useState6[0],
+    setItemOptions = _useState6[1];
+
+  // Register for language changes using shared handler
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (!config.message_handler_id_from_shiny) return;
+    var cleanup = Object(_utils_languageHandler_js__WEBPACK_IMPORTED_MODULE_3__["registerLanguageHandler"])(config.message_handler_id_from_shiny, function (newLanguage) {
+      setlang_selected(newLanguage);
+    });
+    return cleanup;
   }, [config.message_handler_id_from_shiny]);
 
   // Render options
@@ -23224,6 +23319,51 @@ var ToggleTextButtonInput = function ToggleTextButtonInput(_ref) {
 };
 function initToggleTextButtonInput() {
   return Object(reactR__WEBPACK_IMPORTED_MODULE_0__["reactShinyInput"])('.toggle_text_button', 'primereact.toggle_text_button', ToggleTextButtonInput);
+}
+
+/***/ }),
+
+/***/ "./srcjs/utils/languageHandler.js":
+/*!****************************************!*\
+  !*** ./srcjs/utils/languageHandler.js ***!
+  \****************************************/
+/*! exports provided: registerLanguageHandler */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerLanguageHandler", function() { return registerLanguageHandler; });
+// Shared language change handler
+// Uses custom DOM events to allow multiple components to listen
+
+var registeredHandlers = new Set();
+function registerLanguageHandler(handlerId, callback) {
+  // Register the Shiny handler only once per handlerId
+  if (!registeredHandlers.has(handlerId)) {
+    registeredHandlers.add(handlerId);
+    if (window.Shiny) {
+      Shiny.addCustomMessageHandler(handlerId, function (newLanguage) {
+        // Dispatch a custom event that all components can listen to
+        var event = new CustomEvent("primereact-language-".concat(handlerId), {
+          detail: {
+            language: newLanguage
+          }
+        });
+        window.dispatchEvent(event);
+      });
+    }
+  }
+
+  // Add event listener for this component
+  var eventHandler = function eventHandler(e) {
+    return callback(e.detail.language);
+  };
+  window.addEventListener("primereact-language-".concat(handlerId), eventHandler);
+
+  // Return cleanup function
+  return function () {
+    window.removeEventListener("primereact-language-".concat(handlerId), eventHandler);
+  };
 }
 
 /***/ }),

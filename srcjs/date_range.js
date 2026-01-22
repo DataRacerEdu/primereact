@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { convertToDateString } from "./utils/utils.js";
+import { registerLanguageHandler } from "./utils/languageHandler.js";
 
 
 const DateRangeInput = ({ configuration, value, setValue }) => {
@@ -22,6 +23,27 @@ const DateRangeInput = ({ configuration, value, setValue }) => {
       return merged;
     });
   }, [JSON.stringify(configuration)]);
+
+  // Translation support
+  const [lang_selected, setlang_selected] = useState(configuration.default_langauge);
+  const [placeholder, setPlaceholder] = useState(() => {
+    return configuration.translation_list?.[configuration.default_langauge]?.[configuration.placeholder] || configuration.placeholder || "Select Date Range";
+  });
+
+  // Register for language changes using shared handler
+  useEffect(() => {
+    if (!config.message_handler_id_from_shiny) return;
+    const cleanup = registerLanguageHandler(config.message_handler_id_from_shiny, (newLanguage) => {
+      setlang_selected(newLanguage);
+    });
+    return cleanup;
+  }, [config.message_handler_id_from_shiny]);
+
+  // Translate placeholder when language changes
+  useEffect(() => {
+    const translatedPlaceholder = config.translation_list?.[lang_selected]?.[config.placeholder] || config.placeholder || "Select Date Range";
+    setPlaceholder(translatedPlaceholder);
+  }, [lang_selected, config.placeholder, config.translation_list]);
 
   const [dates, setDates] = useState(value ? value.map(date => new Date(date)) : null);
   const [clearClicked, setClearClicked] = useState(false);
@@ -68,7 +90,7 @@ const DateRangeInput = ({ configuration, value, setValue }) => {
         }}
         hideOnRangeSelection
         showButtonBar
-        placeholder={config.placeholder || "Select Date Range"}
+        placeholder={placeholder}
         showIcon
         showMinMaxRange
         className={`${config.class || ''} w-full`}

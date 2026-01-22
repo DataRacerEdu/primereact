@@ -1,6 +1,17 @@
 #' Date Range Input
 #'
-#' Date Range Input
+#' Date Range Input with optional translation support.
+#'
+#' @param inputId The input ID
+#' @param value Initial date range value
+#' @param placeholder Placeholder text (can be translation key)
+#' @param class CSS class
+#' @param minDate Minimum selectable date
+#' @param maxDate Maximum selectable date
+#' @param width Width
+#' @param translation_list Optional named list of translations by language
+#' @param default_langauge Default language code (default: 'en')
+#' @param message_handler_id_from_shiny Shiny message handler ID for language changes
 #'
 #' @importFrom reactR createReactShinyInput
 #' @importFrom htmltools htmlDependency tags
@@ -13,7 +24,10 @@ date_range_input <- function(
     class = NULL,
     minDate = NULL,
     maxDate = NULL,
-    width = NULL
+    width = NULL,
+    translation_list = NULL,
+    default_langauge = 'en',
+    message_handler_id_from_shiny = "language_changed"
 ) {
   reactR::createReactShinyInput(
     inputId,
@@ -31,7 +45,10 @@ date_range_input <- function(
       class = class,
       minDate = minDate,
       maxDate = maxDate,
-      width = width
+      width = width,
+      translation_list = translation_list,
+      default_langauge = default_langauge,
+      message_handler_id_from_shiny = message_handler_id_from_shiny
     ),
     htmltools::tags$div
   )

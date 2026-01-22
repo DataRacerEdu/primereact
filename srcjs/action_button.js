@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from 'primereact/button';
 import 'primeicons/primeicons.css';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
+import { registerLanguageHandler } from "./utils/languageHandler.js";
 
 const ActionButtonInput = ({ configuration, value, setValue }) => {
   // Store merged configuration in state for partial updates
@@ -22,16 +23,18 @@ const ActionButtonInput = ({ configuration, value, setValue }) => {
     });
   }, [JSON.stringify(configuration)]);
 
-  const [lang_selected, setlang_selected] = useState(config.default_langauge);
-  const [label, setLabel] = useState(config.label);
+  const [lang_selected, setlang_selected] = useState(configuration.default_langauge);
+  const [label, setLabel] = useState(() => {
+    return configuration.translation_list?.[configuration.default_langauge]?.[configuration.label] || configuration.label;
+  });
 
-  // Register the Shiny custom message handler for 'language_changed'
+  // Register for language changes using shared handler
   useEffect(() => {
-    if (window.Shiny) {
-      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function(newLanguage) {
-        setlang_selected(newLanguage);
-      });
-    }
+    if (!config.message_handler_id_from_shiny) return;
+    const cleanup = registerLanguageHandler(config.message_handler_id_from_shiny, (newLanguage) => {
+      setlang_selected(newLanguage);
+    });
+    return cleanup;
   }, [config.message_handler_id_from_shiny]);
 
   // Render label with translation

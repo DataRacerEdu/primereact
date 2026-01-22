@@ -1,6 +1,7 @@
 import { reactShinyInput } from 'reactR';
 import React, { useState, useEffect } from "react";
 import { SelectButton } from 'primereact/selectbutton';
+import { registerLanguageHandler } from "./utils/languageHandler.js";
 
 const ToggleTextButtonInput = ({ configuration, value, setValue }) => {
   // Store merged configuration in state for partial updates
@@ -20,17 +21,21 @@ const ToggleTextButtonInput = ({ configuration, value, setValue }) => {
     });
   }, [JSON.stringify(configuration)]);
 
-  const [itemOptions, setItemOptions] = useState(null);
-  const [lang_selected, setlang_selected] = useState(config.default_langauge);
+  const [lang_selected, setlang_selected] = useState(configuration.default_langauge);
+  const [itemOptions, setItemOptions] = useState(() => {
+    return (configuration.options || []).map(val => ({
+      value: val,
+      name: configuration.translation_list?.[configuration.default_langauge]?.[val] || val,
+    }));
+  });
 
-  // Register the Shiny custom message handler for 'language_changed'
+  // Register for language changes using shared handler
   useEffect(() => {
-    if (window.Shiny) {
-      Shiny.addCustomMessageHandler(config.message_handler_id_from_shiny, function(newLanguage) {
-        console.log("Language change trigger received:", newLanguage);
-        setlang_selected(newLanguage);
-      });
-    }
+    if (!config.message_handler_id_from_shiny) return;
+    const cleanup = registerLanguageHandler(config.message_handler_id_from_shiny, (newLanguage) => {
+      setlang_selected(newLanguage);
+    });
+    return cleanup;
   }, [config.message_handler_id_from_shiny]);
 
   // Render options
