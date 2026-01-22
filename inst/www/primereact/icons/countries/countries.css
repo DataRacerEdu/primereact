@@ -1,0 +1,29 @@
+/* Country Flags - Embedded in primereact package */
+.country-flag {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+.country-flag-blz { background-image: url("belize.png"); }
+.country-flag-cv { background-image: url("cape-verde.png"); }
+.country-flag-fsm { background-image: url("fsm.png"); }
+.country-flag-idn { background-image: url("indonesia.png"); }
+.country-flag-ken { background-image: url("kenya.png"); }
+.country-flag-mdg { background-image: url("madagascar.png"); }
+.country-flag-phl { background-image: url("philippines.png"); }
+.country-flag-sen { background-image: url("senegal.png"); }
+.country-flag-tl { background-image: url("east-timor.png"); }
+.country-flag-tza { background-image: url("tanzania.png"); }
+.country-flag-ind { background-image: url("india.png"); }
+.country-flag-moz { background-image: url("mozambique.png"); }
+.country-flag-mus { background-image: url("mauritius.png"); }
+.country-flag-mex { background-image: url("mexico.png"); }
+.country-flag-com { background-image: url("comoros.png"); }
+.country-flag-png { background-image: url("papua-new-guinea.png"); }
+.country-flag-tha { background-image: url("thailand.png"); }
+.country-flag-som { background-image: url("somalia.png"); }
+.country-flag-gmb { background-image: url("gambia.png"); }
+.country-flag-gtm { background-image: url("guatemala.png"); }
+.country-flag-hnd { background-image: url("honduras.png"); }
+.country-flag-mmr { background-image: url("myanmar.png"); }

@@ -4,8 +4,34 @@
 \alias{update_select_input}
 \title{Update Select Input}
 \usage{
-update_select_input(session, inputId, value, configuration = NULL)
+update_select_input(
+  session,
+  inputId,
+  value = NULL,
+  options = NULL,
+  placeholder = NULL,
+  class = NULL,
+  width = NULL,
+  iconClass = NULL
+)
+}
+\arguments{
+\item{session}{The Shiny session object}
+
+\item{inputId}{The input ID}
+
+\item{value}{The new value (optional)}
+
+\item{options}{New options list (optional)}
+
+\item{placeholder}{New placeholder text (optional)}
+
+\item{class}{New CSS class (optional)}
+
+\item{width}{New width (optional)}
+
+\item{iconClass}{New icon class (optional)}
 }
 \description{
-Update Select Input
+Update Select Input. Only pass the parameters you want to update.
 }

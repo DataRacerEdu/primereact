@@ -4,8 +4,34 @@
 \alias{update_date_range_input}
 \title{Update Date Range Input}
 \usage{
-update_date_range_input(session, inputId, value, configuration = NULL)
+update_date_range_input(
+  session,
+  inputId,
+  value = NULL,
+  placeholder = NULL,
+  class = NULL,
+  minDate = NULL,
+  maxDate = NULL,
+  width = NULL
+)
+}
+\arguments{
+\item{session}{The Shiny session object}
+
+\item{inputId}{The input ID}
+
+\item{value}{New date range value (optional)}
+
+\item{placeholder}{New placeholder text (optional)}
+
+\item{class}{New CSS class (optional)}
+
+\item{minDate}{New minimum date (optional)}
+
+\item{maxDate}{New maximum date (optional)}
+
+\item{width}{New width (optional)}
 }
 \description{
-Update Date Range Input
+Update Date Range Input. Only pass the parameters you want to update.
 }

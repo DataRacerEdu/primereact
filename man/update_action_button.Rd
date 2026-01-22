@@ -4,8 +4,44 @@
 \alias{update_action_button}
 \title{Update Action Button Input}
 \usage{
-update_action_button(session, inputId, configuration = NULL)
+update_action_button(
+  session,
+  inputId,
+  label = NULL,
+  icon = NULL,
+  iconPos = NULL,
+  disabled = NULL,
+  rounded = NULL,
+  text = NULL,
+  raised = NULL,
+  outlined = NULL,
+  size = NULL
+)
+}
+\arguments{
+\item{session}{The Shiny session object}
+
+\item{inputId}{The input ID}
+
+\item{label}{New button label (optional)}
+
+\item{icon}{New icon (optional)}
+
+\item{iconPos}{Icon position: "left" or "right" (optional)}
+
+\item{disabled}{Enable/disable button (optional)}
+
+\item{rounded}{Enable/disable rounded style (optional)}
+
+\item{text}{Enable/disable text style (optional)}
+
+\item{raised}{Enable/disable raised style (optional)}
+
+\item{outlined}{Enable/disable outlined style (optional)}
+
+\item{size}{Button size: "small", "normal", "large" (optional)}
 }
 \description{
-Update Action Button Input for Shiny from PrimeReact module
+Update Action Button Input for Shiny from PrimeReact module.
+Only pass the parameters you want to update.
 }

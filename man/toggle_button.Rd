@@ -12,7 +12,8 @@ toggle_button(
   onIcon = "pi pi-check",
   offIcon = "pi pi-times",
   class = NULL,
-  width = NULL
+  width = NULL,
+  disabled = FALSE
 )
 }
 \description{

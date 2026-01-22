@@ -3,9 +3,7 @@ library(primereact)
 library(bslib)
 
 ui <- bslib::page(
-  tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "countries_flag.css")
-  ),
+  # Country flags auto-loaded - just use iconClass = "country-flag country-flag-"
 
   # ============================================================================
   # SELECT INPUT

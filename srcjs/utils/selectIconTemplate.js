@@ -1,12 +1,12 @@
 export const withIconTemplate = (option, iconClass) => {
     return (
-        <div className="flex align-items-center" style={{display: 'flex'}}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
             <img
                 alt={option.title}
                 src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png"
-                className={`mr-2 ${iconClass}${option.item.toLowerCase()}`}
-                style={{ width: '20px', marginRight: '5px' }} />
-            <div>{option.title}</div>
+                className={`${iconClass}${option.item.toLowerCase()}`}
+                style={{ width: '20px', height: '20px', marginRight: '8px', objectFit: 'contain' }} />
+            <span>{option.title}</span>
         </div>
     );
 };
@@ -14,12 +14,15 @@ export const withIconTemplate = (option, iconClass) => {
 export const selectedWithIconTemplate = (option, iconClass, placeholder) => {
     if (option) {
         return (
-            <div className="flex align-items-center" style={{ display: "flex", justifyContent: "center"}}>
-                <img alt={option.titile} src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png" className={`mr-2 ${iconClass}${option.item.toLowerCase()}`} style={{ width: '20px', marginRight: '5px' }} />
-                <div>{option.title}</div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img
+                    alt={option.title}
+                    src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png"
+                    className={`${iconClass}${option.item.toLowerCase()}`}
+                    style={{ width: '20px', height: '20px', marginRight: '8px', objectFit: 'contain' }} />
+                <span>{option.title}</span>
             </div>
         );
     }
-
     return <span>{placeholder}</span>;
 };

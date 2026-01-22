@@ -4,8 +4,37 @@
 \alias{update_toggle_button}
 \title{Update a toggle_button input}
 \usage{
-update_toggle_button(session, inputId, value, configuration = NULL)
+update_toggle_button(
+  session,
+  inputId,
+  value = NULL,
+  onLabel = NULL,
+  offLabel = NULL,
+  onIcon = NULL,
+  offIcon = NULL,
+  class = NULL,
+  disabled = NULL
+)
+}
+\arguments{
+\item{session}{The Shiny session object}
+
+\item{inputId}{The input ID}
+
+\item{value}{New toggle value TRUE/FALSE (optional)}
+
+\item{onLabel}{Label when toggled on (optional)}
+
+\item{offLabel}{Label when toggled off (optional)}
+
+\item{onIcon}{Icon when toggled on (optional)}
+
+\item{offIcon}{Icon when toggled off (optional)}
+
+\item{class}{CSS class (optional)}
+
+\item{disabled}{Enable/disable toggle (optional)}
 }
 \description{
-Update a toggle_button input
+Update a toggle_button input. Only pass the parameters you want to update.
 }

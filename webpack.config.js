@@ -23,13 +23,22 @@ module.exports = {
                           'css-loader' // simply use css-loader without any options that are not valid
                     ]
             },
-            // For icons
+            // For fonts
             {
                 test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
                 loader: 'file-loader',
                 options: {
                     name: 'fonts/[name].[ext]',
                     outputPath: '',
+                },
+            },
+            // For images (icons) - inline as base64
+            {
+                test: /\.(png|jpg|jpeg|gif)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 50000,  // Inline images < 50kb as base64
+                    name: 'icons/[name].[ext]',
                 },
             }
         ]

@@ -4,8 +4,40 @@
 \alias{update_multiple_select_input}
 \title{Update a multiple_select input}
 \usage{
-update_multiple_select_input(session, inputId, value, configuration = NULL)
+update_multiple_select_input(
+  session,
+  inputId,
+  value = NULL,
+  options = NULL,
+  placeholder = NULL,
+  class = NULL,
+  width = NULL,
+  iconClass = NULL,
+  filter = NULL,
+  filterInputAutoFocus = NULL
+)
+}
+\arguments{
+\item{session}{The Shiny session object}
+
+\item{inputId}{The input ID}
+
+\item{value}{The new value (optional)}
+
+\item{options}{New options list (optional)}
+
+\item{placeholder}{New placeholder text (optional)}
+
+\item{class}{New CSS class (optional)}
+
+\item{width}{New width (optional)}
+
+\item{iconClass}{New icon class (optional)}
+
+\item{filter}{Enable/disable filter (optional)}
+
+\item{filterInputAutoFocus}{Enable/disable filter auto focus (optional)}
 }
 \description{
-Update a multiple_select input
+Update a multiple_select input. Only pass the parameters you want to update.
 }

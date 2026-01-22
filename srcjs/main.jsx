@@ -5,6 +5,9 @@ import initMultiSelectInput from "./multiple_select.js";
 import initSelectInput from "./select.js";
 import initToggleTextButtonInput from "./toggle_text_button.js";
 
+// Embedded country flags CSS
+import "../inst/www/primereact/icons/countries/countries.css";
+
 // Bootstrap override fixes - injected after DOM ready to ensure it loads after Bootstrap
 const primereactFixesCSS = `
 /* PrimeReact Bootstrap Override Fixes */

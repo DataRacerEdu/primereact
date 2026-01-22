@@ -4,8 +4,25 @@
 \alias{update_toggle_text_button}
 \title{Update a toggle_text_button input}
 \usage{
-update_toggle_text_button(session, inputId, value, configuration = NULL)
+update_toggle_text_button(
+  session,
+  inputId,
+  value = NULL,
+  options = NULL,
+  disabled = NULL
+)
+}
+\arguments{
+\item{session}{The Shiny session object}
+
+\item{inputId}{The input ID}
+
+\item{value}{New value (optional)}
+
+\item{options}{New options list (optional)}
+
+\item{disabled}{Enable/disable the input (optional)}
 }
 \description{
-Update a toggle_text_button input
+Update a toggle_text_button input. Only pass the parameters you want to update.
 }
