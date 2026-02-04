@@ -211,6 +211,39 @@ ui <- bslib::page(
   fluidRow(
     column(3, actionButton("dr_class", "Toggle class")),
     column(9, "")
+  ),
+
+  hr(),
+
+  # ============================================================================
+  # DATE INPUT (Single Date)
+  # ============================================================================
+  h3("Test Date Input Updates"),
+
+  fluidRow(
+    column(6,
+      date_input(
+        inputId = "diTest",
+        value = NULL,
+        placeholder = "Select date",
+        width = "300px"
+      )
+    ),
+    column(6,
+      h5("Current value:"),
+      verbatimTextOutput("debug_date")
+    )
+  ),
+
+  fluidRow(
+    column(3, actionButton("di_value_set", "Set date"), actionButton("di_value_clear", "Clear")),
+    column(3, actionButton("di_placeholder", "Change placeholder")),
+    column(3, actionButton("di_minmax", "Set min/max")),
+    column(3, actionButton("di_width", "Toggle width"))
+  ),
+  fluidRow(
+    column(3, actionButton("di_class", "Toggle class")),
+    column(9, "")
   )
 )
 
@@ -424,6 +457,37 @@ server <- function(input, output, session) {
   observeEvent(input$dr_class, {
     dr_styled(!dr_styled())
     update_date_range_input(session, "drTest", class = if(dr_styled()) "highlighted" else "")
+  })
+
+  # ============================================================================
+  # DATE INPUT (Single Date)
+  # ============================================================================
+  output$debug_date <- renderPrint({ input$diTest })
+
+  observeEvent(input$di_value_set, {
+    update_date_input(session, "diTest", value = as.character(Sys.Date()))
+  })
+  observeEvent(input$di_value_clear, {
+    update_date_input(session, "diTest", value = NULL)
+  })
+  observeEvent(input$di_placeholder, {
+    update_date_input(session, "diTest", placeholder = "Pick a date")
+  })
+  observeEvent(input$di_minmax, {
+    update_date_input(session, "diTest",
+      minDate = as.character(Sys.Date() - 30),
+      maxDate = as.character(Sys.Date() + 30)
+    )
+  })
+  di_wide <- reactiveVal(FALSE)
+  observeEvent(input$di_width, {
+    di_wide(!di_wide())
+    update_date_input(session, "diTest", width = if(di_wide()) "500px" else "300px")
+  })
+  di_styled <- reactiveVal(FALSE)
+  observeEvent(input$di_class, {
+    di_styled(!di_styled())
+    update_date_input(session, "diTest", class = if(di_styled()) "highlighted" else "")
   })
 }
 
