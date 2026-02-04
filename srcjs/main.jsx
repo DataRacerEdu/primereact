@@ -1,5 +1,6 @@
 import initActionButton from "./action_button.js";
 import initDateRangeInput from "./date_range.js";
+import initDateInput from "./date_input.js";
 import initToggleButtonInput from "./toggle_button.js";
 import initMultiSelectInput from "./multiple_select.js";
 import initSelectInput from "./select.js";
@@ -40,6 +41,7 @@ function injectFixesCSS() {
 // Initialize inputs
 initActionButton();
 initDateRangeInput();
+initDateInput();
 initToggleButtonInput();
 initMultiSelectInput();
 initSelectInput();
