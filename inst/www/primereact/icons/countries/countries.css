@@ -6,6 +6,7 @@
   vertical-align: middle;
 }
 .country-flag-blz { background-image: url("belize.png"); }
+.country-flag-bra { background-image: url("brazil.png"); }
 .country-flag-cv { background-image: url("cape-verde.png"); }
 .country-flag-fsm { background-image: url("fsm.png"); }
 .country-flag-idn { background-image: url("indonesia.png"); }
@@ -27,3 +28,6 @@
 .country-flag-gtm { background-image: url("guatemala.png"); }
 .country-flag-hnd { background-image: url("honduras.png"); }
 .country-flag-mmr { background-image: url("myanmar.png"); }
+.country-flag-gha { background-image: url("ghana.png"); }
+.country-flag-gnb { background-image: url("guinea-bissau.png"); }
+.country-flag-plw { background-image: url("palau.png"); }

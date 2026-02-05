@@ -3,7 +3,7 @@
 #' A data frame containing country codes and names for the embedded country flag icons.
 #' Use these codes with `iconClass = "country-flag country-flag-"` in select_input.
 #'
-#' @format A data frame with 22 rows and 3 columns:
+#' @format A data frame with 26 rows and 3 columns:
 #' \describe{
 #'   \item{code}{Country code (lowercase) - use as `item` value}
 #'   \item{name}{Country name - use as `title` value}
@@ -27,15 +27,16 @@
 #'
 #' @export
 country_flags <- data.frame(
-  code = c("blz", "cv", "com", "fsm", "gmb", "gtm", "hnd", "ind", "idn", "ken",
-           "mdg", "mex", "mmr", "moz", "mus", "phl", "png", "sen", "som", "tha",
-           "tl", "tza"),
-  name = c("Belize", "Cape Verde", "Comoros", "Micronesia", "Gambia", "Guatemala",
-           "Honduras", "India", "Indonesia", "Kenya", "Madagascar", "Mexico",
-           "Myanmar", "Mozambique", "Mauritius", "Philippines", "Papua New Guinea",
-           "Senegal", "Somalia", "Thailand", "East Timor", "Tanzania"),
-  code_upper = c("BLZ", "CV", "COM", "FSM", "GMB", "GTM", "HND", "IND", "IDN", "KEN",
-                 "MDG", "MEX", "MMR", "MOZ", "MUS", "PHL", "PNG", "SEN", "SOM", "THA",
-                 "TL", "TZA"),
+  code = c("blz", "bra", "cv", "com", "fsm", "gha", "gmb", "gnb", "gtm", "hnd",
+           "ind", "idn", "ken", "mdg", "mex", "mmr", "moz", "mus", "phl", "plw",
+           "png", "sen", "som", "tha", "tl", "tza"),
+  name = c("Belize", "Brazil", "Cape Verde", "Comoros", "Micronesia", "Ghana",
+           "Gambia", "Guinea-Bissau", "Guatemala", "Honduras", "India", "Indonesia",
+           "Kenya", "Madagascar", "Mexico", "Myanmar", "Mozambique", "Mauritius",
+           "Philippines", "Palau", "Papua New Guinea", "Senegal", "Somalia",
+           "Thailand", "East Timor", "Tanzania"),
+  code_upper = c("BLZ", "BRA", "CV", "COM", "FSM", "GHA", "GMB", "GNB", "GTM", "HND",
+                 "IND", "IDN", "KEN", "MDG", "MEX", "MMR", "MOZ", "MUS", "PHL", "PLW",
+                 "PNG", "SEN", "SOM", "THA", "TL", "TZA"),
   stringsAsFactors = FALSE
 )
