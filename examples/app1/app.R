@@ -18,7 +18,11 @@ ui <- bslib::page(
         options = list(
           list(title = "Kenya", item = "KEN"),
           list(title = "Indonesia", item = "IDN"),
-          list(title = "Philippines", item = "PHL")
+          list(title = "Philippines", item = "PHL"),
+          list(title = "Brazil", item = "BRA"),
+          list(title = "Ghana", item = "GHA"),
+          list(title = "Guinea-Bissau", item = "GNB"),
+          list(title = "Palau", item = "PLW")
         ),
         placeholder = "Select country",
         iconClass = "country-flag country-flag-",
