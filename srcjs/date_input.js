@@ -73,10 +73,13 @@ export const DateInput = ({ configuration, value, setValue }) => {
         onChange={(e) => setDate(e.value)}
         dateFormat={config.dateFormat || "mm/dd/yy"}
         readOnlyInput={config.readonly !== false}
+        keepInvalid={config.readonly === false}
         onHide={() => {
-          if (date) {
+          if (date instanceof Date && !isNaN(date.getTime())) {
             setValue(convertToDateString(date));
           } else {
+            // Incomplete/invalid typed text: drop it and report no selection
+            if (date) setDate(null);
             setValue(null);
           }
         }}

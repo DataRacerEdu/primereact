@@ -1,5 +1,5 @@
 import { reactShinyInput } from 'reactR';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Calendar } from 'primereact/calendar';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { convertToDateString } from "./utils/utils.js";
@@ -47,6 +47,10 @@ export const DateRangeInput = ({ configuration, value, setValue }) => {
 
   const [dates, setDates] = useState(value ? value.map(date => new Date(date)) : null);
   const [clearClicked, setClearClicked] = useState(false);
+  // True while the input holds typed text that doesn't parse as a range yet;
+  // the raw string must never reach `dates`, since a re-render with a string
+  // value makes PrimeReact mangle the input text in range mode
+  const invalidTextRef = useRef(false);
 
   useEffect(() => {
     if (clearClicked) {
@@ -75,17 +79,28 @@ export const DateRangeInput = ({ configuration, value, setValue }) => {
     <div className="card flex justify-content-center">
       <Calendar
         value={dates}
-        onChange={(e) => setDates((e.value))}
+        onChange={(e) => {
+          if (typeof e.value === 'string') {
+            invalidTextRef.current = true;
+          } else {
+            invalidTextRef.current = false;
+            setDates(e.value);
+          }
+        }}
         onHide={() => {
-          if (dates && dates.every(date => date)) {
+          if (!invalidTextRef.current && Array.isArray(dates) && dates.length && dates.every(date => date instanceof Date && !isNaN(date.getTime()))) {
             setValue(dates.map(date => convertToDateString(date)));
           } else {
+            // Incomplete/invalid typed text: drop it and report no selection
+            invalidTextRef.current = false;
+            setDates(null);
             setValue([null, null]);
           }
         }}
         selectionMode="range"
         dateFormat={config.dateFormat || "mm/dd/yy"}
         readOnlyInput={config.readonly !== false}
+        keepInvalid={config.readonly === false}
         onClearButtonClick={() => {
           setClearClicked(true);
         }}

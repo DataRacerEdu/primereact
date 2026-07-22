@@ -22812,10 +22812,13 @@ var DateInput = function DateInput(_ref) {
     },
     dateFormat: config.dateFormat || "mm/dd/yy",
     readOnlyInput: config.readonly !== false,
+    keepInvalid: config.readonly === false,
     onHide: function onHide() {
-      if (date) {
+      if (date instanceof Date && !isNaN(date.getTime())) {
         setValue(Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_4__["convertToDateString"])(date));
       } else {
+        // Incomplete/invalid typed text: drop it and report no selection
+        if (date) setDate(null);
         setValue(null);
       }
     },
@@ -22940,6 +22943,10 @@ var DateRangeInput = function DateRangeInput(_ref) {
     _useState0 = _slicedToArray(_useState9, 2),
     clearClicked = _useState0[0],
     setClearClicked = _useState0[1];
+  // True while the input holds typed text that doesn't parse as a range yet;
+  // the raw string must never reach `dates`, since a re-render with a string
+  // value makes PrimeReact mangle the input text in range mode
+  var invalidTextRef = Object(react__WEBPACK_IMPORTED_MODULE_1__["useRef"])(false);
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (clearClicked) {
       setDates(null);
@@ -22969,22 +22976,31 @@ var DateRangeInput = function DateRangeInput(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(primereact_calendar__WEBPACK_IMPORTED_MODULE_2__["Calendar"], {
     value: dates,
     onChange: function onChange(e) {
-      return setDates(e.value);
+      if (typeof e.value === 'string') {
+        invalidTextRef.current = true;
+      } else {
+        invalidTextRef.current = false;
+        setDates(e.value);
+      }
     },
     onHide: function onHide() {
-      if (dates && dates.every(function (date) {
-        return date;
+      if (!invalidTextRef.current && Array.isArray(dates) && dates.length && dates.every(function (date) {
+        return date instanceof Date && !isNaN(date.getTime());
       })) {
         setValue(dates.map(function (date) {
           return Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_4__["convertToDateString"])(date);
         }));
       } else {
+        // Incomplete/invalid typed text: drop it and report no selection
+        invalidTextRef.current = false;
+        setDates(null);
         setValue([null, null]);
       }
     },
     selectionMode: "range",
     dateFormat: config.dateFormat || "mm/dd/yy",
     readOnlyInput: config.readonly !== false,
+    keepInvalid: config.readonly === false,
     onClearButtonClick: function onClearButtonClick() {
       setClearClicked(true);
     },

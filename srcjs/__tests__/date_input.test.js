@@ -90,6 +90,52 @@ describe('DateInput', () => {
     expect(setValue).not.toHaveBeenCalledWith(expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/));
   });
 
+  test('backspace deletes one character at a time, not the whole date', async () => {
+    const user = userEvent.setup();
+    const { input } = renderDateInput({ readonly: false });
+
+    await user.click(input);
+    await user.type(input, '07/15/2026');
+    expect(input).toHaveValue('07/15/2026');
+
+    await user.keyboard('{Backspace}');
+    expect(input).toHaveValue('07/15/202');
+
+    await user.keyboard('{Backspace}');
+    expect(input).toHaveValue('07/15/20');
+  });
+
+  test('backspacing to an invalid date then retyping commits the corrected date', async () => {
+    const user = userEvent.setup();
+    const { input, setValue } = renderDateInput({ readonly: false });
+
+    await user.click(input);
+    await user.type(input, '07/15/2026');
+    await user.keyboard('{Backspace}{Backspace}');
+    await user.type(input, '25');
+    expect(input).toHaveValue('07/15/2025');
+
+    await user.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(setValue).toHaveBeenCalledWith('2025-07-15');
+    });
+  });
+
+  test('closing with leftover invalid text clears the input and commits null', async () => {
+    const user = userEvent.setup();
+    const { input, setValue } = renderDateInput({ readonly: false });
+
+    await user.click(input);
+    await user.type(input, '07/15/2026');
+    await user.keyboard('{Backspace}{Backspace}');
+    await user.keyboard('{Escape}');
+
+    await waitFor(() => {
+      expect(setValue).toHaveBeenCalledWith(null);
+    });
+    expect(input).toHaveValue('');
+  });
+
   test('initial value from Shiny is shown formatted as mm/dd/yyyy', () => {
     const { input } = renderDateInput({}, '2026-03-05');
     expect(input).toHaveValue('03/05/2026');

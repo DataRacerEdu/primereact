@@ -67,6 +67,36 @@ describe('DateRangeInput', () => {
     expect(setValue).toHaveBeenCalledWith([null, null]);
   });
 
+  test('backspace deletes one character at a time, not the whole range', async () => {
+    const user = userEvent.setup();
+    const { input } = renderDateRange({ readonly: false });
+
+    await user.click(input);
+    await user.type(input, '07/01/2026 - 07/10/2026');
+    expect(input).toHaveValue('07/01/2026 - 07/10/2026');
+
+    await user.keyboard('{Backspace}');
+    expect(input).toHaveValue('07/01/2026 - 07/10/202');
+
+    await user.keyboard('{Backspace}');
+    expect(input).toHaveValue('07/01/2026 - 07/10/20');
+  });
+
+  test('closing with leftover invalid text clears the input and commits nulls', async () => {
+    const user = userEvent.setup();
+    const { input, setValue } = renderDateRange({ readonly: false });
+
+    await user.click(input);
+    await user.type(input, '07/01/2026 - 07/10/2026');
+    await user.keyboard('{Backspace}{Backspace}');
+    await user.keyboard('{Escape}');
+
+    await waitFor(() => {
+      expect(setValue).toHaveBeenCalledWith([null, null]);
+    });
+    expect(input).toHaveValue('');
+  });
+
   test('initial value from Shiny is shown formatted', () => {
     const { input } = renderDateRange({}, ['2026-03-05', '2026-03-10']);
     expect(input).toHaveValue('03/05/2026 - 03/10/2026');
