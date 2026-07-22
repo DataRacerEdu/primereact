@@ -12,6 +12,8 @@ date_range_input(
   minDate = NULL,
   maxDate = NULL,
   width = NULL,
+  readonly = TRUE,
+  dateFormat = "mm/dd/yy",
   translation_list = NULL,
   default_langauge = "en",
   message_handler_id_from_shiny = "language_changed"
@@ -31,6 +33,16 @@ date_range_input(
 \item{maxDate}{Maximum selectable date}
 
 \item{width}{Width}
+
+\item{readonly}{If TRUE (default), dates can only be picked from the
+calendar popup; set to FALSE to also let the user type the dates directly
+in the format given by \code{dateFormat}}
+
+\item{dateFormat}{Display (and typing) format for the dates, using
+PrimeReact tokens: \code{dd} = day, \code{mm} = month, \code{yy} = 4-digit year,
+\code{y} = 2-digit year. Default \code{"mm/dd/yy"} (i.e. MM/DD/YYYY). The Shiny
+input value is always returned as \code{"yyyy-mm-dd"} regardless of this
+setting.}
 
 \item{translation_list}{Optional named list of translations by language}
 

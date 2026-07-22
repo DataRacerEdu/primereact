@@ -6,7 +6,7 @@ import { convertToDateString } from "./utils/utils.js";
 import { registerLanguageHandler } from "./utils/languageHandler.js";
 
 
-const DateRangeInput = ({ configuration, value, setValue }) => {
+export const DateRangeInput = ({ configuration, value, setValue }) => {
   // Store merged configuration in state for partial updates
   const [config, setConfig] = useState(() => ({ ...configuration }));
 
@@ -84,7 +84,8 @@ const DateRangeInput = ({ configuration, value, setValue }) => {
           }
         }}
         selectionMode="range"
-        readOnlyInput
+        dateFormat={config.dateFormat || "mm/dd/yy"}
+        readOnlyInput={config.readonly !== false}
         onClearButtonClick={() => {
           setClearClicked(true);
         }}

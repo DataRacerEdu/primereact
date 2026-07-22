@@ -5,7 +5,7 @@
 \alias{country_flags}
 \title{Available Country Flags}
 \format{
-A data frame with 22 rows and 3 columns:
+A data frame with 26 rows and 3 columns:
 \describe{
 \item{code}{Country code (lowercase) - use as \code{item} value}
 \item{name}{Country name - use as \code{title} value}

@@ -16,9 +16,35 @@ devtools::install_local("path/to/primereact")
 - `action_button()` - Action button
 - `toggle_button()` - Toggle button
 - `toggle_text_button()` - Text-based toggle button
+- `date_input()` - Single date picker
 - `date_range_input()` - Date range picker
 
 Each component has a corresponding `update_*()` function for dynamic updates.
+
+## Date Inputs
+
+By default, dates can only be picked from the calendar popup (`readonly = TRUE`).
+Set `readonly = FALSE` to also let users type the date directly into the field.
+Typed dates are validated against the active `dateFormat` and against
+`minDate`/`maxDate` by the underlying PrimeReact Calendar.
+
+The display (and typing) format is controlled by `dateFormat`, using PrimeReact
+tokens: `dd` = day, `mm` = month, `yy` = 4-digit year, `y` = 2-digit year.
+The default is `"mm/dd/yy"` (i.e. `MM/DD/YYYY`). The Shiny input value is
+always returned as `"yyyy-mm-dd"` regardless of the display format.
+
+```r
+date_input("start")                            # popup only (default)
+date_input("start", readonly = FALSE)          # popup + typed MM/DD/YYYY
+date_input("start", dateFormat = "dd.mm.yy")   # display as DD.MM.YYYY
+
+# Change at runtime
+update_date_input(session, "start", readonly = FALSE, dateFormat = "dd.mm.yy")
+```
+
+The same `readonly` and `dateFormat` parameters are available on
+`date_range_input()` / `update_date_range_input()`, where a typed range uses
+the form `<date> - <date>`.
 
 ## Icons
 

@@ -12,7 +12,9 @@ update_date_input(
   class = NULL,
   minDate = NULL,
   maxDate = NULL,
-  width = NULL
+  width = NULL,
+  readonly = NULL,
+  dateFormat = NULL
 )
 }
 \arguments{
@@ -31,6 +33,10 @@ update_date_input(
 \item{maxDate}{New maximum date (optional)}
 
 \item{width}{New width (optional)}
+
+\item{readonly}{New readonly setting (optional)}
+
+\item{dateFormat}{New date format (optional)}
 }
 \description{
 Update Date Input. Only pass the parameters you want to update.

@@ -6,7 +6,7 @@ import { convertToDateString } from "./utils/utils.js";
 import { registerLanguageHandler } from "./utils/languageHandler.js";
 
 
-const DateInput = ({ configuration, value, setValue }) => {
+export const DateInput = ({ configuration, value, setValue }) => {
   // Store merged configuration in state for partial updates
   const [config, setConfig] = useState(() => ({ ...configuration }));
 
@@ -71,6 +71,8 @@ const DateInput = ({ configuration, value, setValue }) => {
       <Calendar
         value={date}
         onChange={(e) => setDate(e.value)}
+        dateFormat={config.dateFormat || "mm/dd/yy"}
+        readOnlyInput={config.readonly !== false}
         onHide={() => {
           if (date) {
             setValue(convertToDateString(date));
@@ -78,7 +80,6 @@ const DateInput = ({ configuration, value, setValue }) => {
             setValue(null);
           }
         }}
-        readOnlyInput
         onClearButtonClick={() => {
           setClearClicked(true);
         }}

@@ -1,6 +1,6 @@
 Package: primereact
 Title: primereact module for r/shiny applications
-Version: 0.0.0.1
+Version: 0.0.0.2
 Authors@R: 
     person("Anastasiia", "Kostiv", , "akostiv11@gmail.com", role = c("aut", "cre"))
 Description: primereact module for r/shiny applications.
@@ -9,7 +9,10 @@ License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Imports: 
+Imports:
     htmltools,
     reactR,
     shiny
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
