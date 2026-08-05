@@ -1,3 +1,17 @@
+export function parseDateString(value) {
+  if (value == null) return null;
+  if (value instanceof Date) return isNaN(value.getTime()) ? null : value;
+
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(value));
+  if (!m) {
+    const d = new Date(value);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  // new Date(year, monthIndex, day) is local midnight, mirroring
+  // convertToDateString's local getters — keeps the round trip in one zone
+  return new Date(+m[1], +m[2] - 1, +m[3]);
+}
+
 export function convertToDateString(dateInput) {
   if(dateInput === null) return null;
 

@@ -2,7 +2,7 @@ import { reactShinyInput } from 'reactR';
 import React, { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
-import { convertToDateString } from "./utils/utils.js";
+import { convertToDateString, parseDateString } from "./utils/utils.js";
 import { registerLanguageHandler } from "./utils/languageHandler.js";
 
 
@@ -45,7 +45,7 @@ export const DateInput = ({ configuration, value, setValue }) => {
     setPlaceholder(translatedPlaceholder);
   }, [lang_selected, config.placeholder, config.translation_list]);
 
-  const [date, setDate] = useState(value ? new Date(value) : null);
+  const [date, setDate] = useState(value ? parseDateString(value) : null);
   const [clearClicked, setClearClicked] = useState(false);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export const DateInput = ({ configuration, value, setValue }) => {
     }
 
     if (value) {
-      setDate(new Date(value));
+      setDate(parseDateString(value));
       return;
     }
 
@@ -90,8 +90,8 @@ export const DateInput = ({ configuration, value, setValue }) => {
         placeholder={placeholder}
         showIcon
         className={`${config.class || ''} w-full`}
-        minDate={config.minDate ? new Date(config.minDate) : undefined}
-        maxDate={config.maxDate ? new Date(config.maxDate) : undefined}
+        minDate={config.minDate ? parseDateString(config.minDate) : undefined}
+        maxDate={config.maxDate ? parseDateString(config.maxDate) : undefined}
         style={config.width ? { width: config.width } : undefined}
       />
     </div>
