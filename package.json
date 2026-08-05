@@ -28,6 +28,6 @@
   "scripts": {
     "watch": "webpack --watch",
     "build": "webpack",
-    "test": "jest"
+    "test": "TZ=America/New_York jest"
   }
 }

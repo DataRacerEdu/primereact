@@ -1,6 +1,6 @@
 Package: primereact
 Title: primereact module for r/shiny applications
-Version: 0.0.0.2
+Version: 0.0.0.3
 Authors@R: 
     person("Anastasiia", "Kostiv", , "akostiv11@gmail.com", role = c("aut", "cre"))
 Description: primereact module for r/shiny applications.
