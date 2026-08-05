@@ -2,7 +2,7 @@ import { reactShinyInput } from 'reactR';
 import React, { useState, useEffect, useRef } from "react";
 import { Calendar } from 'primereact/calendar';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
-import { convertToDateString } from "./utils/utils.js";
+import { convertToDateString, parseDateString } from "./utils/utils.js";
 import { registerLanguageHandler } from "./utils/languageHandler.js";
 
 
@@ -45,7 +45,7 @@ export const DateRangeInput = ({ configuration, value, setValue }) => {
     setPlaceholder(translatedPlaceholder);
   }, [lang_selected, config.placeholder, config.translation_list]);
 
-  const [dates, setDates] = useState(value ? value.map(date => new Date(date)) : null);
+  const [dates, setDates] = useState(value ? value.map(date => parseDateString(date)) : null);
   const [clearClicked, setClearClicked] = useState(false);
   // True while the input holds typed text that doesn't parse as a range yet;
   // the raw string must never reach `dates`, since a re-render with a string
@@ -64,7 +64,7 @@ export const DateRangeInput = ({ configuration, value, setValue }) => {
         setDates(null);
         return;
       } else {
-        setDates(value.map(date => new Date(date)));
+        setDates(value.map(date => parseDateString(date)));
         return;
       }
     }
@@ -110,8 +110,8 @@ export const DateRangeInput = ({ configuration, value, setValue }) => {
         showIcon
         showMinMaxRange
         className={`${config.class || ''} w-full`}
-        minDate={config.minDate ? new Date(config.minDate) : undefined}
-        maxDate={config.maxDate ? new Date(config.maxDate) : undefined}
+        minDate={config.minDate ? parseDateString(config.minDate) : undefined}
+        maxDate={config.maxDate ? parseDateString(config.maxDate) : undefined}
         style={config.width ? { width: config.width } : undefined}
       />
     </div>

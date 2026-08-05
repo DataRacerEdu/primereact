@@ -1,3 +1,17 @@
+export function parseDateString(value) {
+  if (value == null) return null;
+  if (value instanceof Date) return isNaN(value.getTime()) ? null : value;
+
+  // "yyyy-mm-dd" must be parsed as local midnight, not UTC midnight,
+  // to mirror convertToDateString's local getters
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(value));
+  if (!m) {
+    const d = new Date(value);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  return new Date(+m[1], +m[2] - 1, +m[3]);
+}
+
 export function convertToDateString(dateInput) {
   if(dateInput === null) return null;
 
